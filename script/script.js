@@ -22,5 +22,23 @@ let nB = document.getElementById('newBook')
 nB.addEventListener('click', function () {
     let book = new addBookToLibrary()
     myLibrary.push(book)
-    console.log(myLibrary)
+    showBook()
 })
+
+let book;
+
+function showBook() {
+    makeDiv()
+    for (i = 0; i < myLibrary.length; i++) {
+        let template = `<h3>${myLibrary[i].name} by ${myLibrary[i].author} has ${myLibrary[i].pages} pages.</h3>`
+        render(template, book)
+    }
+}
+
+function makeDiv() {
+    for (i = 0; i < myLibrary.length; i++) {
+        book = document.createElement('div');
+        book.className = 'book';
+        library.appendChild(book);       
+    }
+};
