@@ -58,17 +58,16 @@ let render = function (template, book) {
 }
 
 function showBook() {
-    makeDiv()
+    createDiv()
     makeTemplate()
 }
 
-function makeDiv() {
+function createDiv() {
     let library = document.getElementById('library')
-    for (i = 0; i < myLibrary.length; i++) {
-        book = document.createElement('div');
-        book.className = 'book';
-        library.appendChild(book);       
-    }
+    book = document.createElement('div');
+    book.className = 'book';
+    library.appendChild(book); 
+    book.id = myLibrary.length
 };
 
 function makeTemplate() {
