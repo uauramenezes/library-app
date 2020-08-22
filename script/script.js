@@ -1,44 +1,79 @@
 let myLibrary = [];
 
-function Book(name, author, pages) {
-    this.name = name;
+function Book(title, author, pages) {
+    this.title = title;
     this.author = author;
     this.pages = pages;
 }
 
 function addBookToLibrary() {
-    this.name = prompt("What is the name of the book?")
-    this.author = prompt("Who is the author of the book?")
-    this.pages = prompt('How many pages does it have?')
+    this.title = document.getElementById('title').value
+    this.author = document.getElementById('author').value
+    this.pages = document.getElementById('pages').value
 }
 
-let render = function (template, node) {
-    node.innerHTML = template
-}
-
-let library = document.getElementById('library')
-
-let nB = document.getElementById('newBook')
-nB.addEventListener('click', function () {
-    let book = new addBookToLibrary()
-    myLibrary.push(book)
-    showBook()
+let addBook = document.getElementById('addBook')
+addBook.addEventListener('click', function () {
+    displayForm(1)
 })
 
-let book;
+let submitButton = document.getElementById('submit');
+submitButton.addEventListener('click', function() {
+    if (title.value == '' || author.value == '' || pages.value == '') {
+        return false
+    } else {
+        pushInput()
+        displayForm(2)
+        showBook()
+        resetForm()
+    }
+})
 
-function showBook() {
-    makeDiv()
-    for (i = 0; i < myLibrary.length; i++) {
-        let template = `<h3>${myLibrary[i].name} by ${myLibrary[i].author} has ${myLibrary[i].pages} pages.</h3>`
-        render(template, book)
+let cancelButton = document.getElementById('cancel');
+cancelButton.addEventListener('click', function() {
+    displayForm(2)
+    resetForm()
+})
+
+function pushInput() {
+    let book = new addBookToLibrary()
+    myLibrary.push(book)
+}
+
+function displayForm(x) {
+    if (x === 1) {
+        document.getElementById('form').style.display = 'block'
+    } else {
+        document.getElementById('form').style.display = 'none'
     }
 }
 
+function resetForm() {
+    let frm = document.getElementById('form');
+    frm.reset()
+}
+
+let render = function (template, book) {
+    book.innerHTML = template
+}
+
+function showBook() {
+    makeDiv()
+    makeTemplate()
+}
+
 function makeDiv() {
+    let library = document.getElementById('library')
     for (i = 0; i < myLibrary.length; i++) {
         book = document.createElement('div');
         book.className = 'book';
         library.appendChild(book);       
     }
 };
+
+function makeTemplate() {
+    for (i = 0; i < myLibrary.length; i++) {
+        let template = `<h3>${myLibrary[i].title} by ${myLibrary[i].author} has ${myLibrary[i].pages} pages.</h3>`
+        render(template, book)
+    }
+}
