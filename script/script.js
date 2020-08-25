@@ -101,7 +101,7 @@ let render = function (template, book) {
 
 function makeTemplate() {
     for (i = 0; i < myLibrary.length; i++) {
-        let template = `<h3>${myLibrary[i].title}</h3><h3>${myLibrary[i].author}</h3><h3>${myLibrary[i].pages} pages</h3>`;
+        let template = `<h4>${myLibrary[i].author}</h4><h1>${myLibrary[i].title}</h1><p>${myLibrary[i].pages} pages</p>`;
         render(template, div);
     }
 }
