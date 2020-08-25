@@ -1,4 +1,5 @@
 let myLibrary = [];
+let form = document.getElementById('form');
 
 function Book(title, author, pages) {
     this.title = title;
@@ -10,31 +11,41 @@ function addBookToLibrary() {
     this.title = document.getElementById('title').value;
     this.author = document.getElementById('author').value;
     this.pages = document.getElementById('pages').value;
-    this.readStatus = document.getElementById('readStatus').checked
+}
+
+window.onload = function() {
+    displayForm(1);
+    resetForm();
 }
 
 let addBook = document.getElementById('addBook')
 addBook.addEventListener('click', function () {
-    displayForm(1);
+    hideShowForm()
 })
+
+function hideShowForm() {
+    if (form.style.display === 'none') {
+        displayForm(2);
+    } else {
+        displayForm(1);
+    }
+}
 
 let submitButton = document.getElementById('submit');
 submitButton.addEventListener('click', function() {
+    submit()
+})
+
+function submit() {
     if (title.value == '' || author.value == '' || pages.value == '') {
         return false
     } else {
         pushInput();
-        displayForm(2);
+        displayForm(1);
         showBook();
         resetForm();
     }
-})
-
-let cancelButton = document.getElementById('cancel');
-cancelButton.addEventListener('click', function() {
-    displayForm(2);
-    resetForm();
-})
+}
 
 function pushInput() {
     let book = new addBookToLibrary();
@@ -43,9 +54,9 @@ function pushInput() {
 
 function displayForm(x) {
     if (x === 1) {
-        document.getElementById('form').style.display = 'block';
+        form.style.display = 'none';
     } else {
-        document.getElementById('form').style.display = 'none';
+        form.style.display = 'inline';
     }
 }
 
@@ -88,7 +99,8 @@ function createReadButton() {
 }
 
 function readNotRead(readButton) {
-    if (readStatus.checked) {
+    let read = document.getElementById('yes').checked
+    if (read) {
         readButton.value = 'Read';
     } else  {
         readButton.value = 'Not Read';
@@ -106,7 +118,7 @@ function readNotRead(readButton) {
 function createDeleteButton() {
     let delBtn = document.createElement('input');
     delBtn.type = 'button';
-    delBtn.value = 'del';
+    delBtn.className = 'delete'
     delBtn.onclick = function() {
         deleteBook(delBtn.parentNode.id);
         return false;
