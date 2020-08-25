@@ -1,5 +1,5 @@
-let myLibrary = [];
-let form = document.getElementById('form');
+const myLibrary = [];
+const form = document.getElementById('form');
 
 function Book(title, author, pages) {
     this.title = title;
@@ -21,6 +21,7 @@ window.onload = function() {
 let addBook = document.getElementById('addBook')
 addBook.addEventListener('click', function () {
     hideShowForm()
+    darker()
 })
 
 function hideShowForm() {
@@ -30,6 +31,19 @@ function hideShowForm() {
         displayForm(1);
     }
 }
+
+function darker() {
+    let body = document.getElementById('body')
+    let main = document.getElementById('library')
+    if (form.style.display === 'inline') {
+        body.style.backgroundColor = 'rgba(0,0,0,0.3)'
+        main.style.opacity = '0.7'
+    } else {
+        body.style.backgroundColor = '#fff'
+        main.style.opacity = '1'
+    }
+}
+
 
 let submitButton = document.getElementById('submit');
 submitButton.addEventListener('click', function() {
@@ -44,6 +58,7 @@ function submit() {
         displayForm(1);
         showBook();
         resetForm();
+        darker()
     }
 }
 
@@ -86,7 +101,7 @@ let render = function (template, book) {
 
 function makeTemplate() {
     for (i = 0; i < myLibrary.length; i++) {
-        let template = `<h3>${myLibrary[i].title} by ${myLibrary[i].author} has ${myLibrary[i].pages} pages.</h3>`;
+        let template = `<h3>${myLibrary[i].title}</h3><h3>${myLibrary[i].author}</h3><h3>${myLibrary[i].pages} pages</h3>`;
         render(template, div);
     }
 }
@@ -94,6 +109,7 @@ function makeTemplate() {
 function createReadButton() {
     let readButton = document.createElement('input');
     readButton.type = 'button';
+    readButton.className = 'readButton'
     readButton.value = readNotRead(readButton)
     div.appendChild(readButton);
 }
