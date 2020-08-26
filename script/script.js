@@ -18,7 +18,6 @@ function addBookToLibrary() {
 }
 
 window.onload = function () {
-    console.log(myLibrary)
     displayForm(1);
     resetForm();
     if (localStorage.getItem('book')) {
@@ -131,11 +130,20 @@ function createReadButton() {
     let readButton = document.createElement('input');
     readButton.type = 'button';
     readButton.className = 'readButton'
-    readButton.value = readNotRead(readButton)
+    readButton.value = changeReadButtonValue(readButton)
     div.appendChild(readButton);
 }
 
-function readNotRead(readButton) {
+function changeReadButtonValue(readButton) {
+    onSubmit(readButton)
+    readButton.onclick = function () {
+        onClick(readButton)
+        addBookToStorage()
+    }
+    return readButton.value;
+}
+
+function onSubmit(readButton) {
     for (let i = 0; i < myLibrary.length; i++) {
         if (myLibrary[i].read) {
             readButton.value = 'Read';
@@ -143,8 +151,11 @@ function readNotRead(readButton) {
             readButton.value = 'Not Read';
         }
     }
-    readButton.onclick = function () {
-        let index = readButton.parentNode.id
+    return readButton.value;
+}
+
+function onClick(readButton) {
+    let index = readButton.parentNode.id
         if (readButton.value === 'Read') {
             readButton.value = 'Not Read'
             myLibrary[index].read = false
@@ -152,8 +163,6 @@ function readNotRead(readButton) {
             readButton.value = 'Read'
             myLibrary[index].read = true
         }
-        addBookToStorage()
-    }
     return readButton.value;
 }
 
@@ -169,14 +178,28 @@ function createDeleteButton() {
 }
 
 function deleteBook(id) {
-    let book = document.getElementById(id);
-    book.parentNode.removeChild(book);
-    myLibrary.splice(id, 1);
+    removeBook(id)
     changeDivId()
+    changeObjectId()
     addBookToStorage()
 }
 
+function removeBook(id) {
+    let book = document.getElementById(id);
+    book.parentNode.removeChild(book);
+    myLibrary.splice(id, 1);
+}
+
 function changeDivId() {
+    let book = document.querySelectorAll('div.book')
+    for (let i = 0; i < book.length; i++) {
+        if (book[i].id > i) {
+            book[i].id = i
+        }
+    }
+}
+
+function changeObjectId() {
     for (i = 0; i < myLibrary.length; i++) {
         if (myLibrary[i].id > i) {
             myLibrary[i].id = i
