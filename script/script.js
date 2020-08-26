@@ -36,10 +36,10 @@ function darker() {
     let body = document.getElementById('body')
     let main = document.getElementById('library')
     if (form.style.display === 'inline') {
-        body.style.backgroundColor = 'rgba(0,0,0,0.3)'
+        body.style.backgroundColor = 'rgba(90, 217, 240, 0.7)'
         main.style.opacity = '0.7'
     } else {
-        body.style.backgroundColor = '#fff'
+        body.style.backgroundColor = 'rgb(90, 217, 240)'
         main.style.opacity = '1'
     }
 }
@@ -101,7 +101,7 @@ let render = function (template, book) {
 
 function makeTemplate() {
     for (i = 0; i < myLibrary.length; i++) {
-        let template = `<h4>${myLibrary[i].author}</h4><h1>${myLibrary[i].title}</h1><p>${myLibrary[i].pages} pages</p>`;
+        let template = `<h3>${myLibrary[i].author}</h3><h2>${myLibrary[i].title}</h2><p>${myLibrary[i].pages} pages</p>`;
         render(template, div);
     }
 }
