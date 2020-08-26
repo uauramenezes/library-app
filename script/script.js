@@ -5,17 +5,30 @@ function Book(title, author, pages) {
     this.title = title;
     this.author = author;
     this.pages = pages;
+    this.read = read;
 }
 
 function addBookToLibrary() {
     this.title = document.getElementById('title').value;
     this.author = document.getElementById('author').value;
     this.pages = document.getElementById('pages').value;
+    this.read = document.getElementById('read').checked;
 }
 
-window.onload = function() {
+window.onload = function () {
     displayForm(1);
     resetForm();
+    if (localStorage.getItem('book')) {
+        getLocalStorage()
+    }
+}
+
+function getLocalStorage() {
+    let book = JSON.parse(localStorage.getItem('book'))
+    for (let i = 0; i < book.length; i++) {
+        myLibrary.push(book[i])
+        showBook()
+    }
 }
 
 let addBook = document.getElementById('addBook')
@@ -44,9 +57,8 @@ function darker() {
     }
 }
 
-
 let submitButton = document.getElementById('submit');
-submitButton.addEventListener('click', function() {
+submitButton.addEventListener('click', function () {
     submit()
 })
 
@@ -65,6 +77,12 @@ function submit() {
 function pushInput() {
     let book = new addBookToLibrary();
     myLibrary.push(book);
+    addBookToStorage();
+}
+
+function addBookToStorage() {
+    let book = JSON.stringify(myLibrary);
+    localStorage.setItem('book', book);
 }
 
 function displayForm(x) {
@@ -90,8 +108,8 @@ function showBook() {
 function createDiv() {
     let library = document.getElementById('library')
     div = document.createElement('div');
-    library.appendChild(div); 
-    div.id = myLibrary.length;
+    library.appendChild(div);
+    div.id = myLibrary.length - 1;
     div.className = 'book';
 };
 
@@ -115,18 +133,23 @@ function createReadButton() {
 }
 
 function readNotRead(readButton) {
-    let read = document.getElementById('yes').checked
-    if (read) {
-        readButton.value = 'Read';
-    } else  {
-        readButton.value = 'Not Read';
+    for (let i = 0; i < myLibrary.length; i++) {
+        if (myLibrary[i].read) {
+            readButton.value = 'Read';
+        } else {
+            readButton.value = 'Not Read';
+        }
     }
-    readButton.onclick = function() {
+    readButton.onclick = function () {
+        let index = readButton.parentNode.id
         if (readButton.value === 'Read') {
             readButton.value = 'Not Read'
+            myLibrary[index].read = false
         } else {
             readButton.value = 'Read'
+            myLibrary[index].read = true
         }
+        addBookToStorage()
     }
     return readButton.value;
 }
@@ -135,7 +158,7 @@ function createDeleteButton() {
     let delBtn = document.createElement('input');
     delBtn.type = 'button';
     delBtn.className = 'delete'
-    delBtn.onclick = function() {
+    delBtn.onclick = function () {
         deleteBook(delBtn.parentNode.id);
         return false;
     }
@@ -143,8 +166,8 @@ function createDeleteButton() {
 }
 
 function deleteBook(id) {
-    let index = id - 1;
-    myLibrary.splice(index, 1);
+    myLibrary.splice(id, 1);
     let book = document.getElementById(id);
     book.parentNode.removeChild(book);
+    //localStorage.removeItem(index)
 }
