@@ -6,6 +6,7 @@ function Book(title, author, pages) {
     this.author = author;
     this.pages = pages;
     this.read = read;
+    this.id = id;
 }
 
 function addBookToLibrary() {
@@ -13,9 +14,11 @@ function addBookToLibrary() {
     this.author = document.getElementById('author').value;
     this.pages = document.getElementById('pages').value;
     this.read = document.getElementById('read').checked;
+    this.id = myLibrary.length
 }
 
 window.onload = function () {
+    console.log(myLibrary)
     displayForm(1);
     resetForm();
     if (localStorage.getItem('book')) {
@@ -166,8 +169,17 @@ function createDeleteButton() {
 }
 
 function deleteBook(id) {
-    myLibrary.splice(id, 1);
     let book = document.getElementById(id);
     book.parentNode.removeChild(book);
-    //localStorage.removeItem(index)
+    myLibrary.splice(id, 1);
+    changeDivId()
+    addBookToStorage()
+}
+
+function changeDivId() {
+    for (i = 0; i < myLibrary.length; i++) {
+        if (myLibrary[i].id > i) {
+            myLibrary[i].id = i
+        }
+    }
 }
