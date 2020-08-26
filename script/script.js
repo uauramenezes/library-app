@@ -1,7 +1,7 @@
 const myLibrary = [];
 const form = document.getElementById('form');
 
-function Book(title, author, pages) {
+function Book(title, author, pages, read, id) {
     this.title = title;
     this.author = author;
     this.pages = pages;
@@ -22,6 +22,19 @@ window.onload = function () {
     resetForm();
     if (localStorage.getItem('book')) {
         getLocalStorage()
+    } else {
+        getBooks()
+    }
+}
+
+function getBooks() {
+    let book = []
+    book[0] = new Book("King Lear", "William Shakespeare", 145, true, 0);
+    book[2] = new Book("I'm a Cat", "Natsume Soseki", 480, true, 1);
+    book[3] = new Book("Macbeth", "William Shakespeare", 170, true, 2)
+    for (i = 0; i < book.length; i++) {
+        myLibrary.push(book[i])
+        showBook()
     }
 }
 
@@ -181,7 +194,11 @@ function deleteBook(id) {
     removeBook(id)
     changeDivId()
     changeObjectId()
-    addBookToStorage()
+    if (myLibrary.length === 0) {
+        localStorage.clear()
+    } else {
+        addBookToStorage()
+    }
 }
 
 function removeBook(id) {
