@@ -14,16 +14,17 @@ function addBookToLibrary() {
     this.author = document.getElementById('author').value;
     this.pages = document.getElementById('pages').value;
     this.read = document.getElementById('read').checked;
-    this.id = myLibrary.length
+    this.id = myLibrary.length;
 }
 
+displayForm(1);
+
 window.onload = function () {
-    displayForm(1);
     resetForm();
     if (localStorage.getItem('book')) {
-        getLocalStorage()
+        getLocalStorage();
     } else {
-        getBooks()
+        getBooks();
     }
 }
 
@@ -31,25 +32,25 @@ function getBooks() {
     let book = []
     book[0] = new Book("King Lear", "William Shakespeare", 145, true, 0);
     book[2] = new Book("I'm a Cat", "Natsume Soseki", 480, true, 1);
-    book[3] = new Book("Macbeth", "William Shakespeare", 170, true, 2)
+    book[3] = new Book("Macbeth", "William Shakespeare", 170, true, 2);
     for (i = 0; i < book.length; i++) {
-        myLibrary.push(book[i])
-        showBook()
+        myLibrary.push(book[i]);
+        showBook();
     }
 }
 
 function getLocalStorage() {
-    let book = JSON.parse(localStorage.getItem('book'))
+    let book = JSON.parse(localStorage.getItem('book'));
     for (let i = 0; i < book.length; i++) {
-        myLibrary.push(book[i])
-        showBook()
+        myLibrary.push(book[i]);
+        showBook();
     }
 }
 
 let addBook = document.getElementById('addBook')
 addBook.addEventListener('click', function () {
-    hideShowForm()
-    darker()
+    hideShowForm();
+    darker();
 })
 
 function hideShowForm() {
@@ -61,31 +62,31 @@ function hideShowForm() {
 }
 
 function darker() {
-    let body = document.getElementById('body')
-    let main = document.getElementById('library')
+    let body = document.getElementById('body');
+    let main = document.getElementById('library');
     if (form.style.display === 'inline') {
-        body.style.backgroundColor = 'rgba(90, 217, 240, 0.7)'
-        main.style.opacity = '0.7'
+        body.style.backgroundColor = 'rgba(90, 217, 240, 0.7)';
+        main.style.opacity = '0.7';
     } else {
-        body.style.backgroundColor = 'rgb(90, 217, 240)'
-        main.style.opacity = '1'
+        body.style.backgroundColor = 'rgb(90, 217, 240)';
+        main.style.opacity = '1';
     }
 }
 
 let submitButton = document.getElementById('submit');
 submitButton.addEventListener('click', function () {
-    submit()
+    submit();
 })
 
 function submit() {
     if (title.value == '' || author.value == '' || pages.value == '') {
-        return false
+        return false;
     } else {
         pushInput();
         displayForm(1);
         showBook();
         resetForm();
-        darker()
+        darker();
     }
 }
 
@@ -121,7 +122,7 @@ function showBook() {
 }
 
 function createDiv() {
-    let library = document.getElementById('library')
+    let library = document.getElementById('library');
     div = document.createElement('div');
     library.appendChild(div);
     div.id = myLibrary.length - 1;
@@ -141,17 +142,17 @@ function makeTemplate() {
 
 function createReadButton() {
     let readButton = document.createElement('input');
-    readButton.type = 'button';
-    readButton.className = 'readButton'
-    readButton.value = changeReadButtonValue(readButton)
+    readButton.type = 'button';;
+    readButton.className = 'readButton';
+    readButton.value = changeReadButtonValue;(readButton);
     div.appendChild(readButton);
 }
 
 function changeReadButtonValue(readButton) {
-    onSubmit(readButton)
+    onSubmit(readButton);
     readButton.onclick = function () {
-        onClick(readButton)
-        addBookToStorage()
+        onClick(readButton);
+        addBookToStorage();
     }
     return readButton.value;
 }
@@ -170,11 +171,11 @@ function onSubmit(readButton) {
 function onClick(readButton) {
     let index = readButton.parentNode.id
         if (readButton.value === 'Read') {
-            readButton.value = 'Not Read'
-            myLibrary[index].read = false
+            readButton.value = 'Not Read';
+            myLibrary[index].read = false;
         } else {
-            readButton.value = 'Read'
-            myLibrary[index].read = true
+            readButton.value = 'Read';
+            myLibrary[index].read = true;
         }
     return readButton.value;
 }
@@ -182,7 +183,7 @@ function onClick(readButton) {
 function createDeleteButton() {
     let delBtn = document.createElement('input');
     delBtn.type = 'button';
-    delBtn.className = 'delete'
+    delBtn.className = 'delete';
     delBtn.onclick = function () {
         deleteBook(delBtn.parentNode.id);
         return false;
@@ -191,13 +192,13 @@ function createDeleteButton() {
 }
 
 function deleteBook(id) {
-    removeBook(id)
-    changeDivId()
-    changeObjectId()
+    removeBook(id);
+    changeDivId();
+    changeObjectId();
     if (myLibrary.length === 0) {
-        localStorage.clear()
+        localStorage.clear();
     } else {
-        addBookToStorage()
+        addBookToStorage();
     }
 }
 
@@ -211,7 +212,7 @@ function changeDivId() {
     let book = document.querySelectorAll('div.book')
     for (let i = 0; i < book.length; i++) {
         if (book[i].id > i) {
-            book[i].id = i
+            book[i].id = i;
         }
     }
 }
@@ -219,7 +220,7 @@ function changeDivId() {
 function changeObjectId() {
     for (i = 0; i < myLibrary.length; i++) {
         if (myLibrary[i].id > i) {
-            myLibrary[i].id = i
+            myLibrary[i].id = i;
         }
     }
 }
