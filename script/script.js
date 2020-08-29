@@ -144,7 +144,7 @@ function createReadButton() {
     let readButton = document.createElement('input');
     readButton.type = 'button';;
     readButton.className = 'readButton';
-    readButton.value = changeReadButtonValue;(readButton);
+    readButton.value = changeReadButtonValue(readButton);
     div.appendChild(readButton);
 }
 
