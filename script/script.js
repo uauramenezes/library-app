@@ -1,6 +1,26 @@
 const myLibrary = [];
 const form = document.getElementById('form');
 
+class Book {
+    constructor(title, author, pages, read, id) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+        this.id = id;
+    }
+}
+
+class addBookToLibrary {
+    constructor() {
+        this.title = document.getElementById('title').value;
+        this.author = document.getElementById('author').value;
+        this.pages = document.getElementById('pages').value;
+        this.read = document.getElementById('read').checked;
+        this.id = myLibrary.length;
+    }
+}
+/*
 function Book(title, author, pages, read, id) {
     this.title = title;
     this.author = author;
@@ -16,7 +36,7 @@ function addBookToLibrary() {
     this.read = document.getElementById('read').checked;
     this.id = myLibrary.length;
 }
-
+*/
 displayForm(1);
 
 window.onload = function () {
