@@ -3,4 +3,4 @@ A small library app for the [Odin Project curriculum](https://www.theodinproject
 
 Made with JavaScript, HTML and CSS.
 
-Access it [here](https://jouchark.github.io/library-app/).
+Access it [here](https://uauramenezes.github.io/library-app/).
