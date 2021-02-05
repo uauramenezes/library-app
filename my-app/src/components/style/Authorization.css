@@ -11,21 +11,28 @@
     border-radius: 15px;
 }
 
-@media (max-width: 800px) {
-    .box {
-        left: 5vw;
-    }
-}
-
 @media (max-width: 400px) {
     .box {
-        left: 0;
-        margin-left: 0;
+        left: -1% !important;
         width: 350px;
     }
 
-    .card {
-        margin-left: -5px;
+    .nav-item {
+        margin: 0 !important;
+    }
+}
+
+@media (max-width: 800px) {
+    .box {
+        left: -2%;
+    }
+
+    .nav-item {
+        margin-right: 25px;
+    }
+
+    .button {
+        margin: 0 5px;
     }
 }
 
@@ -35,6 +42,10 @@
     }
 }
 
+#basic-nav-dropdown {
+    color: #fff;
+}
+
 .box input[type="text"],
 .box input[type="password"] {
     border: 0;
@@ -42,13 +53,20 @@
     display: block;
     margin: 20px auto;
     text-align: center;
-    border: 2px solid #17a2b8;
+    border: 1px solid #17a2b8;
     padding: 10px 10px;
-    width: 250px;
     outline: none;
     color: #17a2b8;
     border-radius: 24px;
     transition: 0.25s
+}
+
+.login {
+    width: 250px;
+}
+
+.signUp {
+    width: 300px !important;
 }
 
 .box h1 {
@@ -60,7 +78,7 @@
 .box input[type="text"]:focus,
 .box input[type="password"]:focus {
     width: 300px;
-    border-color: #2ecc71
+    border-color: #28a745;
 }
 
 .submit {
@@ -69,7 +87,7 @@
     display: block;
     margin: 20px auto;
     text-align: center;
-    border: 2px solid #17a2b8;
+    border: 1px solid #17a2b8;
     padding: 14px 40px;
     outline: none;
     color: #17a2b8;
@@ -79,11 +97,12 @@
 }
 
 .submit:hover {
-    background: #2ecc71
+    background: #17a2b8;
+    color: #fff;
 }
 
 .forgot {
-    text-decoration: underline
+    text-decoration: underline;
 }
 
 .text {
