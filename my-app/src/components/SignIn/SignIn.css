@@ -1,0 +1,91 @@
+.box {
+    width: 400px;
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    left: 25vw;
+    background: #343a40;
+    text-align: center;
+    transition: 0.25s;
+    margin-top: 100px;
+    border-radius: 15px;
+}
+
+@media (max-width: 800px) {
+    .box {
+        left: 5vw;
+    }
+}
+
+@media (max-width: 400px) {
+    .box {
+        left: 0;
+        margin-left: 0;
+        width: 350px;
+    }
+
+    .card {
+        margin-left: -5px;
+    }
+}
+
+@media (max-height: 700px) {
+    .box {
+        margin-top: 50px;
+    }
+}
+
+.box input[type="text"],
+.box input[type="password"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #17a2b8;
+    padding: 10px 10px;
+    width: 250px;
+    outline: none;
+    color: #17a2b8;
+    border-radius: 24px;
+    transition: 0.25s
+}
+
+.box h1 {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 500
+}
+
+.box input[type="text"]:focus,
+.box input[type="password"]:focus {
+    width: 300px;
+    border-color: #2ecc71
+}
+
+.submit {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #17a2b8;
+    padding: 14px 40px;
+    outline: none;
+    color: #17a2b8;
+    border-radius: 15px;
+    transition: 0.25s;
+    cursor: pointer
+}
+
+.submit:hover {
+    background: #2ecc71
+}
+
+.forgot {
+    text-decoration: underline
+}
+
+.text {
+    color: #fff;
+}
