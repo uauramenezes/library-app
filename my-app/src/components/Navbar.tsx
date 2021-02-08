@@ -16,10 +16,10 @@ export default function NavBar() {
                     <NavDropdown.Item href="/">Library</NavDropdown.Item>
                 </NavDropdown>
                 <Form inline>
-                    <Button variant="outline-info" className='mr-sm-2 button' href="/sign-in">
+                    <Button variant="outline-info" className='mr-sm-1 button' href="/sign-in">
                         Sign In
                     </Button>
-                    <Button variant="outline-info" className='button' href='sign-up'>Sign Up</Button>
+                    <Button variant="outline-info" className='mr-sm-1 button' href='sign-up'>Sign Up</Button>
                 </Form>
             </Navbar>
         )
@@ -29,8 +29,8 @@ export default function NavBar() {
                 <Navbar.Brand href="/" className='title'>Library App</Navbar.Brand>
                 <Nav className="mr-auto" id='nav'>
                     <Nav.Link href="/">Home</Nav.Link>
-                    <Nav.Link href="#features">About</Nav.Link>
-                    <Nav.Link href="#pricing">Library</Nav.Link>
+                    <Nav.Link href="#about">About</Nav.Link>
+                    <Nav.Link href="#library">Library</Nav.Link>
                 </Nav>
                 <Form inline>
                     <Button variant="outline-info" className='mr-sm-3' href="/sign-in">

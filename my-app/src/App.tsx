@@ -5,7 +5,8 @@ import NavBar from './components/Navbar'
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 
-import './App.css';
+import './style/App.css';
+import './style/Authorization.css';
 
 function App() {
 

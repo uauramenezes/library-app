@@ -11,37 +11,6 @@
     border-radius: 15px;
 }
 
-@media (max-width: 400px) {
-    .box {
-        left: -1% !important;
-        width: 350px;
-    }
-
-    .nav-item {
-        margin: 0 !important;
-    }
-}
-
-@media (max-width: 800px) {
-    .box {
-        left: -2%;
-    }
-
-    .nav-item {
-        margin-right: 25px;
-    }
-
-    .button {
-        margin: 0 5px;
-    }
-}
-
-@media (max-height: 700px) {
-    .box {
-        margin-top: 50px;
-    }
-}
-
 #basic-nav-dropdown {
     color: #fff;
 }
@@ -107,4 +76,35 @@
 
 .text {
     color: #fff;
+}
+
+@media (max-width: 400px) {
+    .box {
+        left: -1% !important;
+        width: 350px;
+    }
+
+    .nav-item {
+        margin: 0 !important;
+    }
+}
+
+@media (max-width: 800px) {
+    .box {
+        left: -2%;
+    }
+
+    .nav-item {
+        margin-right: 25px;
+    }
+
+    .button {
+        margin: 0 5px;
+    }
+}
+
+@media (max-height: 700px) {
+    .box {
+        margin-top: 50px;
+    }
 }

@@ -1,4 +1,3 @@
-import './style/Authorization.css';
 import Button from 'react-bootstrap/Button'
 
 export default function SignIn() {
