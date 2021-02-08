@@ -1,44 +1,45 @@
+import React from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 
-export default function NavBar() {
+function NavItems() {
     let width = window.innerWidth;
-    
+
     if (width < 450) {
         return(
-            <Navbar bg="dark" variant="dark">
-                <NavDropdown title="Library App" id="basic-nav-dropdown" className='drop-down'>
-                    <NavDropdown.Item href="/">Home</NavDropdown.Item>
-                    <NavDropdown.Item href="/">About</NavDropdown.Item>
-                    <NavDropdown.Item href="/">Library</NavDropdown.Item>
-                </NavDropdown>
-                <Form inline>
-                    <Button variant="outline-info" className='mr-sm-1 button' href="/sign-in">
-                        Sign In
-                    </Button>
-                    <Button variant="outline-info" className='mr-sm-1 button' href='sign-up'>Sign Up</Button>
-                </Form>
-            </Navbar>
+            <NavDropdown title="Library App" id="basic-nav-dropdown" className='drop-down'>
+                <NavDropdown.Item href="/">Home</NavDropdown.Item>
+                <NavDropdown.Item href="/">Subjects</NavDropdown.Item>
+                <NavDropdown.Item href="/">My Library</NavDropdown.Item>
+            </NavDropdown>
         )
     } else {
         return(
-            <Navbar bg="dark" variant="dark">
+            <React.Fragment>
                 <Navbar.Brand href="/" className='title'>Library App</Navbar.Brand>
                 <Nav className="mr-auto" id='nav'>
                     <Nav.Link href="/">Home</Nav.Link>
-                    <Nav.Link href="#about">About</Nav.Link>
-                    <Nav.Link href="#library">Library</Nav.Link>
+                    <Nav.Link href="#about">Subjects</Nav.Link>
+                    <Nav.Link href="#library">My Library</Nav.Link>
                 </Nav>
-                <Form inline>
-                    <Button variant="outline-info" className='mr-sm-3' href="/sign-in">
-                        Sign In
-                    </Button>
-                    <Button variant="outline-info" href='sign-up'>Sign Up</Button>
-                </Form>
-            </Navbar>
+            </React.Fragment>
         )
     }
+}
+
+export default function NavBar() {
+    return(
+        <Navbar bg="dark" variant="dark">
+                <NavItems />
+                <Form inline>
+                    <Button variant="outline-info" className='mr-sm-2 button' href="/sign-in">
+                        Sign In
+                    </Button>
+                    <Button variant="outline-info" className='button' href='sign-up'>Sign Up</Button>
+                </Form>
+            </Navbar>
+    )
 }

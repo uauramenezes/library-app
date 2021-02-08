@@ -4,9 +4,11 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import NavBar from './components/Navbar'
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
+import Home from './components/Home'
 
 import './style/App.css';
 import './style/Authorization.css';
+import './style/Home.css'
 
 function App() {
 
@@ -14,6 +16,7 @@ function App() {
     <div className="App">
         <NavBar />
         <Router>
+            <Route path='/'> <Home /> </Route>
             <Route path='/sign-in'> <SignIn /> </Route>
             <Route path='/sign-up'> <SignUp /> </Route>
         </Router>
