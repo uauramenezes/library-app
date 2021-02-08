@@ -1,0 +1,6 @@
+@media (max-width: 350px) {
+    .navbar {
+        width: 100%;
+        padding: 15px 5px;
+    }
+}

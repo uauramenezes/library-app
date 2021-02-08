@@ -1,14 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import NavBar from './components/Navbar'
-import SignIn from './components/SignIn'
-import SignUp from './components/SignUp'
-import Home from './components/Home'
-
 import './style/App.css';
+import './style/Home.css';
+import './style/Navbar.css';
 import './style/Authorization.css';
-import './style/Home.css'
+
+import Home from './components/Home';
+import NavBar from './components/Navbar';
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
 
 function App() {
 

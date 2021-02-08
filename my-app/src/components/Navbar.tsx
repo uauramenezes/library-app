@@ -1,9 +1,9 @@
 import React from 'react';
 import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button'
-import NavDropdown from 'react-bootstrap/NavDropdown'
+import Navbar from 'react-bootstrap/Navbar';
+import Button from 'react-bootstrap/Button';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
 function NavItems() {
     let width = window.innerWidth;
@@ -19,7 +19,7 @@ function NavItems() {
     } else {
         return(
             <React.Fragment>
-                <Navbar.Brand href="/" className='title'>Library App</Navbar.Brand>
+                <Navbar.Brand href="/" className='site-title'>Library App</Navbar.Brand>
                 <Nav className="mr-auto" id='nav'>
                     <Nav.Link href="/">Home</Nav.Link>
                     <Nav.Link href="#about">Subjects</Nav.Link>
@@ -33,13 +33,13 @@ function NavItems() {
 export default function NavBar() {
     return(
         <Navbar bg="dark" variant="dark">
-                <NavItems />
-                <Form inline>
-                    <Button variant="outline-info" className='mr-sm-2 button' href="/sign-in">
-                        Sign In
-                    </Button>
-                    <Button variant="outline-info" className='button' href='sign-up'>Sign Up</Button>
-                </Form>
-            </Navbar>
+            <NavItems />
+            <Form inline>
+                <Button variant="outline-info" className='mr-sm-2 button' href="/sign-in">
+                    Sign In
+                </Button>
+                <Button variant="outline-info" className='button' href='sign-up'>Sign Up</Button>
+            </Form>
+        </Navbar>
     )
 }
