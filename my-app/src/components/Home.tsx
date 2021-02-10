@@ -1,6 +1,6 @@
 import axios from 'axios';
-
 import { useState } from "react";
+import Button from 'react-bootstrap/Button';
 
 interface Book {
     key: string;
@@ -22,9 +22,16 @@ export default function Home() {
         axios.get(url)
             .then((res) => {
                 let data = res.data.docs;
-                createCards(data)  
+                createCards(data); 
             })
             .catch(err => console.log(err))
+    }
+
+    function changeClass() {
+        let div: HTMLInputElement = document.getElementById('search') as HTMLInputElement;
+        if (div.className === 'search-before') {
+            div.className = 'search-after'
+        }
     }
 
     function createCards(data: Array<Book>) {
@@ -42,7 +49,7 @@ export default function Home() {
                     <img className='book-cover' src={src} alt={data[i].title} />
                     <div className="details">
                         <h5 className="book-title">{data[i].title}</h5>
-                        <p className="book-author">by {data[i].author_name}</p>
+                        <p className="book-author">by {data[i].author_name[0]}</p>
                         <p className="published-year">
                             First published in {data[i].first_publish_year}
                         </p>
@@ -56,13 +63,19 @@ export default function Home() {
 
     return(
         <div className="home">
-            <div className="search">
+            <div className="search-before" id='search'>
                 <input type='text' id='input'></input>
                 <select id='fields'>
-                    <option value='inauthor'>Author</option>
+                    <option value='inauthor'>All</option>
                     <option value='intitle'>Title</option>
+                    <option value='inauthor'>Author</option>
                 </select>
-                <button onClick={fetchData}>Click Me</button>
+                <Button variant="outline-info" className='ml-sm-2 button' id='search-button' onClick={
+                    () => {
+                        fetchData();
+                        changeClass();
+                    }
+                }>Search</Button>
             </div>
             
             <div className="search-results">
