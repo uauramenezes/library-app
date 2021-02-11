@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from "react";
 import Button from 'react-bootstrap/Button';
+import blackCover from '../images/black-cover.jpg';
 
 interface Book {
     key: string;
@@ -11,64 +12,72 @@ interface Book {
 }
 
 export default function Home() {
-    const [cards, setCards] = useState(Array);
+    const [bookList, setBookList] = useState(Array);
 
     function fetchData() {
-        let input: HTMLInputElement = document.getElementById('input') as HTMLInputElement;
-        let inputText = input.value.trim().replace(' ', '+');
+        let input = document.getElementById('input') as HTMLInputElement;
+        let value = document.getElementById('fields') as HTMLInputElement;
 
-        let url = `http://openlibrary.org/search.json?q=${inputText}`;
+        let inputText = input.value.trim().replace(' ', '+');
+        let option = value.value;
+
+        let url = `http://openlibrary.org/search.json?${option}=${inputText}`;
         
         axios.get(url)
             .then((res) => {
                 let data = res.data.docs;
-                createCards(data); 
+                createBookList(data); 
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err));
     }
 
     function changeClass() {
         let div: HTMLInputElement = document.getElementById('search') as HTMLInputElement;
         if (div.className === 'search-before') {
-            div.className = 'search-after'
+            div.className = 'search-after';
         }
     }
 
-    function createCards(data: Array<Book>) {
-        let card = [];
+    function createBookList(data: Array<Book>) {
+        let books = [];
         
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < data.length; i++) {
             let coverId = data[i].cover_i;
 
             let src = coverId
                 ? `http://covers.openlibrary.org/b/id/${coverId}-M.jpg`
-                : "https://covers.openlibrary.org/b/olid/OL5743173M-M.jpg";
+                : blackCover;
 
-            card.push(
+            let authorName = data[i].author_name === undefined
+                ? 'Unknown Author'
+                : data[i].author_name[0];
+
+            books.push(
                 <li className="book" key={data[i].key}>
                     <img className='book-cover' src={src} alt={data[i].title} />
                     <div className="details">
-                        <h5 className="book-title">{data[i].title}</h5>
-                        <p className="book-author">by {data[i].author_name[0]}</p>
+                        <h6 className="book-title">{data[i].title}</h6>
+                        <p className="book-author">by {authorName}</p>
                         <p className="published-year">
                             First published in {data[i].first_publish_year}
                         </p>
                     </div>
                     <button type="submit" className='add-button'>Add</button>
                 </li>
-            ) 
+            )
         }
-        setCards(card);
+
+        setBookList(books);
     }
 
     return(
         <div className="home">
             <div className="search-before" id='search'>
-                <input type='text' id='input'></input>
+                <input type='text' id='input' placeholder='Search'></input>
                 <select id='fields'>
-                    <option value='inauthor'>All</option>
-                    <option value='intitle'>Title</option>
-                    <option value='inauthor'>Author</option>
+                    <option value='q'>All</option>
+                    <option value='title'>Title</option>
+                    <option value='author'>Author</option>
                 </select>
                 <Button variant="outline-info" className='ml-sm-2 button' id='search-button' onClick={
                     () => {
@@ -80,7 +89,7 @@ export default function Home() {
             
             <div className="search-results">
                 <ul className="book-list">
-                    {cards}
+                    {bookList}
                 </ul>
             </div>
         </div>

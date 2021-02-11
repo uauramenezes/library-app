@@ -12,8 +12,8 @@ function NavItems() {
         return(
             <NavDropdown title="Library App" id="basic-nav-dropdown" className='drop-down'>
                 <NavDropdown.Item href="/">Home</NavDropdown.Item>
-                <NavDropdown.Item href="/">Subjects</NavDropdown.Item>
-                <NavDropdown.Item href="/">My Library</NavDropdown.Item>
+                <NavDropdown.Item href="/" disabled>My Library</NavDropdown.Item>
+                <NavDropdown.Item href="/" disabled>Account</NavDropdown.Item>
             </NavDropdown>
         )
     } else {
@@ -22,8 +22,8 @@ function NavItems() {
                 <Navbar.Brand href="/" className='site-title'>Library App</Navbar.Brand>
                 <Nav className="mr-auto" id='nav'>
                     <Nav.Link href="/">Home</Nav.Link>
-                    <Nav.Link href="#about">Subjects</Nav.Link>
-                    <Nav.Link href="#library">My Library</Nav.Link>
+                    <Nav.Link href="/" disabled>My Library</Nav.Link>
+                    <Nav.Link href="/" disabled>Account</Nav.Link>
                 </Nav>
             </React.Fragment>
         )
