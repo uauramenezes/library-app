@@ -17,7 +17,7 @@ function App() {
     <div className="App">
         <NavBar />
         <Router>
-            <Route path='/'> <Search /> </Route>
+            <Route exact path='/'> <Search /> </Route>
             <Route path='/sign-in'> <SignIn /> </Route>
             <Route path='/sign-up'> <SignUp /> </Route>
         </Router>

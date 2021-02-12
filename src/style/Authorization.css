@@ -34,10 +34,6 @@
     width: 250px;
 }
 
-.signUp {
-    width: 300px !important;
-}
-
 .box h1 {
     color: white;
     text-transform: uppercase;
@@ -47,7 +43,12 @@
 .box input[type="text"]:focus,
 .box input[type="password"]:focus {
     width: 300px;
-    border-color: #28a745;
+    box-shadow: 0 0 5px #17a2b8;
+}
+
+.box input[type="text"]:hover,
+.box input[type="password"]:hover {
+    box-shadow: 0 0 5px #17a2b8;
 }
 
 .submit {

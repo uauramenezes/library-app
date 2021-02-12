@@ -9,10 +9,10 @@ export default function SignIn() {
                         <form className="box">
                             <h1>Register</h1>
                             <p className='text'> Please enter an email and password!</p>
-                            <input type="text" className='signUp' placeholder="Username" />
-                            <input type="text" className='signUp' placeholder="Confirm Username" />
-                            <input type="password" className='signUp' placeholder="Password" />
-                            <input type="password" className='signUp' placeholder="Confirm Password" />
+                            <input type="text" className='login' placeholder="Username" />
+                            <input type="text" className='login' placeholder="Confirm Username" />
+                            <input type="password" className='login' placeholder="Password" />
+                            <input type="password" className='login' placeholder="Confirm Password" />
                             <Button className='submit' variant="outline-info">Submit</Button>
                         </form>
                     </div>

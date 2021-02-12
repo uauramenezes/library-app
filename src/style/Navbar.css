@@ -10,3 +10,12 @@
     font-size: 35pt;
     color: #e1dcc5 !important;
 }
+
+.site-title:focus,
+.site-title:hover,
+.nav-link:focus,
+.nav-link:hover {
+    outline: none !important;
+    text-decoration: underline;
+}
+

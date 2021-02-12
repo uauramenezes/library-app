@@ -76,14 +76,14 @@ export default function Home() {
 
     return(
         <div className="home">
-            <div className="search-before" id='search'>
-                <input type='text' id='input' placeholder='Search'></input>
-                <select id='fields'>
+            <div className="search-before search" id='search'>
+                <input type='text' className='input' id='input' placeholder='Search'></input>
+                <select className='fields' id='fields'>
                     <option value='q'>All</option>
                     <option value='title'>Title</option>
                     <option value='author'>Author</option>
                 </select>
-                <Button variant="outline-info" className='ml-sm-2 button' id='search-button' onClick={
+                <Button variant="outline-info" className='ml-sm-2 button search-button' onClick={
                     () => {
                         fetchData();
                         changeClass();
