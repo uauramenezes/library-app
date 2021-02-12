@@ -21,12 +21,14 @@ export default function Home() {
         let inputText = input.value.trim().replace(' ', '+');
         let option = value.value;
 
+        document.body.style.cursor = 'wait'
+
         let url = `http://openlibrary.org/search.json?${option}=${inputText}`;
         
         axios.get(url)
             .then((res) => {
                 let data = res.data.docs;
-                createBookList(data); 
+                createBookList(data);
             })
             .catch(err => console.log(err));
     }
@@ -66,6 +68,8 @@ export default function Home() {
                 </li>
             )
         }
+
+        document.body.style.cursor = 'unset'
 
         setBookList(books);
     }

@@ -46,6 +46,11 @@
 
 #search-button:hover {
     background-color: #17a2b8;
+    cursor: inherit;
+}
+
+#search-button:focus {
+    outline: none;
 }
 
 @media (max-width: 350px) {
