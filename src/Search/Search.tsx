@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useState } from "react";
 import Button from 'react-bootstrap/Button';
+
+import './Search.css'
 import blackCover from '../images/black-cover.jpg';
 
 interface Book {
@@ -33,7 +35,7 @@ export default function Home() {
             .catch(err => console.log(err));
     }
 
-    function changeClass() {
+    function changeCursor() {
         let div: HTMLInputElement = document.getElementById('search') as HTMLInputElement;
         if (div.className === 'search-before') {
             div.className = 'search-after';
@@ -86,7 +88,7 @@ export default function Home() {
                 <Button variant="outline-info" className='ml-sm-2 button search-button' onClick={
                     () => {
                         fetchData();
-                        changeClass();
+                        changeCursor();
                     }
                 }>Search</Button>
             </div>
