@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 
 import './Search.css'
-import blackCover from '../images/black-cover.jpg';
+import blackCover from './black-cover.jpg';
 
 interface Book {
     key: string;
@@ -14,7 +14,10 @@ interface Book {
 }
 
 export default function Home() {
-    const [bookList, setBookList] = useState(Array);
+    const [bookList, setBookList] = useState<Book[]>(Array);
+    const [bookData, setBookData] = useState<Book[]>(Array);
+    const [showList, setShowList] = useState(false);
+    const [page, setPage] = useState(0);
 
     function fetchData() {
         let input = document.getElementById('input') as HTMLInputElement;
@@ -23,62 +26,84 @@ export default function Home() {
         let inputText = input.value.trim().replace(' ', '+');
         let option = value.value;
 
-        document.body.style.cursor = 'wait'
+        changeCursor('wait');
+        setPage(0);
 
         let url = `http://openlibrary.org/search.json?${option}=${inputText}`;
         
         axios.get(url)
             .then((res) => {
-                let data = res.data.docs;
-                createBookList(data);
+                let data: Array<Book> = res.data.docs;
+                setBookData(data);
+                setShowList(true);
             })
             .catch(err => console.log(err));
     }
 
-    function changeCursor() {
+    function changeDivPosition() {
         let div: HTMLInputElement = document.getElementById('search') as HTMLInputElement;
         if (div.className === 'search-before') {
             div.className = 'search-after';
         }
     }
 
-    function createBookList(data: Array<Book>) {
-        let books = [];
-        
-        for (let i = 0; i < data.length; i++) {
-            let coverId = data[i].cover_i;
+    function changeCursor(style: string) {
+        document.body.style.cursor = style;
+    }
 
-            let src = coverId
-                ? `http://covers.openlibrary.org/b/id/${coverId}-M.jpg`
-                : blackCover;
-
-            let authorName = data[i].author_name === undefined
-                ? 'Unknown Author'
-                : data[i].author_name[0];
-
-            books.push(
-                <li className="book" key={data[i].key}>
-                    <img className='book-cover' src={src} alt={data[i].title} />
-                    <div className="details">
-                        <h6 className="book-title">{data[i].title}</h6>
-                        <p className="book-author">by {authorName}</p>
-                        <p className="published-year">
-                            First published in {data[i].first_publish_year}
-                        </p>
-                    </div>
-                    <button type="submit" className='add-button'>Add</button>
-                </li>
-            )
+    useEffect(() => {
+        function handleScroll() {
+            if (window.innerHeight + document.documentElement.scrollTop < document.body.scrollHeight
+            || showList) return;
+            changeCursor('wait');
+            setPage(page + 1);
+            setShowList(true);
         }
+        
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [page, showList]);
 
-        document.body.style.cursor = 'unset'
+    useEffect(() => {
+        if (!showList || bookData.length === bookList.length) return;
 
-        setBookList(books);
+        setTimeout(() => {
+            setBookList(bookData.slice(0, (page + 1) * 12));
+            changeCursor('unset');
+        }, 500);
+
+        setShowList(false);
+    }, [bookData, bookList, page, showList]);
+
+    function createBookCard(book: Book) {
+        let coverId = book.cover_i;
+
+        let src = coverId
+            ? `http://covers.openlibrary.org/b/id/${coverId}-M.jpg`
+            : blackCover;
+
+        let authorName = book.author_name === undefined
+            ? 'Unknown Author'
+            : book.author_name[0];
+
+        return(
+            <li className="book" key={book.key}>
+                <img className='book-cover' src={src} alt={book.title} />
+                <div className="details">
+                    <h6 className="book-title">{book.title}</h6>
+                    <p className="book-author">by {authorName}</p>
+                    <p className="published-year">
+                        First published in {book.first_publish_year}
+                    </p>
+                </div>
+                <button type="submit" className='add-button'>Add</button>
+            </li>
+        )
     }
 
     return(
         <div className="home">
-            <div className="search-before search" id='search'>
+            <div className="search-before" id='search'>
                 <input type='text' className='input' id='input' placeholder='Search'></input>
                 <select className='fields' id='fields'>
                     <option value='q'>All</option>
@@ -88,14 +113,14 @@ export default function Home() {
                 <Button variant="outline-info" className='ml-sm-2 button search-button' onClick={
                     () => {
                         fetchData();
-                        changeCursor();
+                        changeDivPosition();
                     }
                 }>Search</Button>
             </div>
             
             <div className="search-results">
                 <ul className="book-list">
-                    {bookList}
+                    {bookList.map(book => createBookCard(book))}
                 </ul>
             </div>
         </div>
