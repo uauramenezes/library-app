@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 
-import './Search.css'
+import './Search.css';
 import blackCover from './black-cover.jpg';
 
 interface Book {
@@ -37,7 +37,23 @@ export default function Home() {
                 setBookData(data);
                 setShowList(true);
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                showError(`${err}`);
+            });
+    }
+
+    function showError(errMsg: string) {
+        let div = document.getElementById('search-result');
+        if (div !== null) {
+            div.innerHTML = `
+                <h3 id='error-title'>
+                    OOPS! An error occurred!
+                </h3>
+                <p className='error-message'>${errMsg}!</p>
+            `;
+        }
+        changeCursor('unset');
     }
 
     function changeDivPosition() {
@@ -118,11 +134,11 @@ export default function Home() {
                 }>Search</Button>
             </div>
             
-            <div className="search-results">
+            <div className="search-results" id='search-result'>
                 <ul className="book-list">
                     {bookList.map(book => createBookCard(book))}
                 </ul>
             </div>
         </div>
-    )
+    );
 }

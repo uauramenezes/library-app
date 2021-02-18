@@ -155,3 +155,9 @@
 .published-year {
     font-size: 0.8em;
 }
+
+/* Error Paragraph */
+
+#error-title {
+    margin-top: 25vh;
+}
