@@ -39,18 +39,20 @@ export default function Home() {
             })
             .catch(err => {
                 console.log(err);
-                showError(`${err}`);
+                showErrorMessage();
             });
     }
 
-    function showError(errMsg: string) {
+    function showErrorMessage() {
         let div = document.getElementById('search-result');
         if (div !== null) {
             div.innerHTML = `
                 <h3 id='error-title'>
                     OOPS! An error occurred!
                 </h3>
-                <p className='error-message'>${errMsg}!</p>
+                <p className='error-message'>
+                    Sorry, I don't Know what you're asking for.
+                </p>
             `;
         }
         changeCursor('unset');
