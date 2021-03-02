@@ -20,17 +20,11 @@ export default function Home() {
     const [page, setPage] = useState(0);
 
     function fetchData() {
-        let input = document.getElementById('input') as HTMLInputElement;
-        let value = document.getElementById('fields') as HTMLInputElement;
-
-        let inputText = input.value.trim().replace(' ', '+');
-        let option = value.value;
-
         changeCursor('wait');
         setPage(0);
 
-        let url = `http://openlibrary.org/search.json?${option}=${inputText}`;
-        
+        let url = getInput();
+
         axios.get(url)
             .then((res) => {
                 let data: Array<Book> = res.data.docs;
@@ -43,23 +37,28 @@ export default function Home() {
             });
     }
 
+    function getInput() {
+        const input = document.getElementById('input') as HTMLInputElement;
+        const value = document.getElementById('fields') as HTMLInputElement;
+
+        const inputText = input.value.trim().replace(' ', '+');
+        const option = value.value;
+
+        return `http://openlibrary.org/search.json?${option}=${inputText}`;
+    }
+
     function showErrorMessage() {
-        let div = document.getElementById('search-result');
-        if (div !== null) {
-            div.innerHTML = `
-                <h3 id='error-title'>
-                    OOPS! An error occurred!
-                </h3>
-                <p className='error-message'>
-                    Sorry, I don't Know what you're asking for.
-                </p>
-            `;
-        }
+        let div = document.getElementById('search-result') as HTMLInputElement;
+        div.innerHTML = `
+            <h3 id='error-title'>
+                OOPS! An error occurred!
+            </h3>
+        `;
         changeCursor('unset');
     }
 
     function changeDivPosition() {
-        let div: HTMLInputElement = document.getElementById('search') as HTMLInputElement;
+        let div = document.getElementById('search') as HTMLInputElement;
         if (div.className === 'search-before') {
             div.className = 'search-after';
         }
@@ -73,6 +72,7 @@ export default function Home() {
         function handleScroll() {
             if (window.innerHeight + document.documentElement.scrollTop < document.body.scrollHeight
             || showList) return;
+
             changeCursor('wait');
             setPage(page + 1);
             setShowList(true);
@@ -93,25 +93,25 @@ export default function Home() {
         setShowList(false);
     }, [bookData, bookList, page, showList]);
 
-    function createBookCard(book: Book) {
-        let coverId = book.cover_i;
+    function createBookCard({key, title, cover_i, author_name, first_publish_year}: Book) {
+        const coverId = cover_i;
 
-        let src = coverId
+        const src = coverId
             ? `http://covers.openlibrary.org/b/id/${coverId}-M.jpg`
             : blackCover;
 
-        let authorName = book.author_name === undefined
+        const authorName = author_name === undefined
             ? 'Unknown Author'
-            : book.author_name[0];
+            : author_name[0];
 
         return(
-            <li className="book" key={book.key}>
-                <img className='book-cover' src={src} alt={book.title} />
+            <li className="book" key={key}>
+                <img className='book-cover' src={src} alt={title} />
                 <div className="details">
-                    <h6 className="book-title">{book.title}</h6>
+                    <h6 className="book-title">{title}</h6>
                     <p className="book-author">by {authorName}</p>
                     <p className="published-year">
-                        First published in {book.first_publish_year}
+                        First published in {first_publish_year}
                     </p>
                 </div>
                 <button type="submit" className='add-button'>Add</button>
