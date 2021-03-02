@@ -1,5 +1,6 @@
 # Library App
 A web app, based on the Open Library, to search books.
+![Library App Demo](./images/library-app.gif)
 
 ## Demo
 Here is a live demo of the project: https://uauramenezes.github.io/library-app/
