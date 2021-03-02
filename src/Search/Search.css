@@ -35,6 +35,7 @@
 
 .input:focus {
     width: 36.5vw;
+    border-color: rgba(0, 0, 0, 0.6) !important;
 }
 
 .fields {

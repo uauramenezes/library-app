@@ -19,11 +19,25 @@ export default function Home() {
     const [showList, setShowList] = useState(false);
     const [page, setPage] = useState(0);
 
-    function fetchData() {
-        changeCursor('wait');
-        setPage(0);
+    function validateInput() {
+        const input = document.getElementById('input') as HTMLInputElement;
+        const value = document.getElementById('fields') as HTMLInputElement;
 
-        let url = getInput();
+        const inputText = input.value.trim().replace(' ', '+');
+        const option = value.value;
+
+        if (inputText === "") {
+            input.style.border = "2px solid red";
+        } else {
+            const url = `http://openlibrary.org/search.json?${option}=${inputText}`;
+            fetchData(url);
+        }
+    }
+
+    function fetchData(url: string) {
+        changeCursor('wait');
+        changeDivPosition();
+        setPage(0);
 
         axios.get(url)
             .then((res) => {
@@ -37,24 +51,8 @@ export default function Home() {
             });
     }
 
-    function getInput() {
-        const input = document.getElementById('input') as HTMLInputElement;
-        const value = document.getElementById('fields') as HTMLInputElement;
-
-        const inputText = input.value.trim().replace(' ', '+');
-        const option = value.value;
-
-        return `http://openlibrary.org/search.json?${option}=${inputText}`;
-    }
-
-    function showErrorMessage() {
-        let div = document.getElementById('search-result') as HTMLInputElement;
-        div.innerHTML = `
-            <h3 id='error-title'>
-                OOPS! An error occurred!
-            </h3>
-        `;
-        changeCursor('unset');
+    function changeCursor(style: string) {
+        document.body.style.cursor = style;
     }
 
     function changeDivPosition() {
@@ -64,8 +62,13 @@ export default function Home() {
         }
     }
 
-    function changeCursor(style: string) {
-        document.body.style.cursor = style;
+    function showErrorMessage() {
+        let div = document.getElementById('search-result') as HTMLInputElement;
+        div.innerHTML = `
+        <h3 id='error-title'>
+            OOPS! An error occurred!
+        </h3>`;
+        changeCursor('unset');
     }
 
     useEffect(() => {
@@ -130,8 +133,7 @@ export default function Home() {
                 </select>
                 <Button variant="outline-info" className='ml-sm-2 button search-button' onClick={
                     () => {
-                        fetchData();
-                        changeDivPosition();
+                        validateInput();
                     }
                 }>Search</Button>
             </div>
