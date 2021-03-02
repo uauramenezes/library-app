@@ -17,9 +17,8 @@ Here is a live demo of the project: https://uauramenezes.github.io/library-app/
 * CSS
 * Open Library Search API
 
-## Overview
-This React application makes use of the Open Library Search API to search through the Open Library catalog.
-It uses Bootstrap, React-Bootstrap and pure CSS to style the pages and TypeScript to add types for better reliability.
+## Motivation
+The objective of this project was to practice TypeScript, Bootstrap and the use of a third party API to make a bigger project that could be turned into a simple CRUD application.
     
 ## Setup
 To build and run this application locally, clone the repository and install it with npm.
