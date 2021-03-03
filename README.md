@@ -22,7 +22,9 @@ Here is a live demo of the project: https://uauramenezes.github.io/library-app/
 * Open Library Search API
 
 ## Motivation
-The objective of this project was to practice TypeScript, Bootstrap and the use of a third party API to make a bigger project that could be turned into a simple CRUD application.
+The original objective of this project was mainly to learn how to use a third-party API. And also to practice TypeScript and Bootstrap.
+
+The secondary objective was to turn it into a simple CRUD application with authentication.
 
 It makes use of:
 * React, and React Hooks, for the DOM manipulation and update,
