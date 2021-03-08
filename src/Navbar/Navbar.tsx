@@ -11,9 +11,9 @@ function NavItems() {
     let width = window.innerWidth;
 
     if (width < 450) {
-        return(
+        return (
             <NavDropdown title="Library App" id="basic-nav-dropdown" className='drop-down'>
-                <NavDropdown.Item href="#">Home</NavDropdown.Item>
+                <NavDropdown.Item href="search">Home</NavDropdown.Item>
                 <NavDropdown.Item href="#" disabled>My Library</NavDropdown.Item>
                 <NavDropdown.Item href="#" disabled>Account</NavDropdown.Item>
             </NavDropdown>
@@ -21,9 +21,9 @@ function NavItems() {
     } else {
         return(
             <React.Fragment>
-                <Navbar.Brand href="#" className='site-title'>Library App</Navbar.Brand>
+                <Navbar.Brand href="search" className='site-title'>Library App</Navbar.Brand>
                 <Nav className="mr-auto" id='nav'>
-                    <Nav.Link href="#">Home</Nav.Link>
+                    <Nav.Link href="search">Home</Nav.Link>
                     <Nav.Link href="#" disabled>My Library</Nav.Link>
                     <Nav.Link href="#" disabled>Account</Nav.Link>
                 </Nav>
@@ -37,10 +37,12 @@ export default function NavBar() {
         <Navbar bg="dark" variant="dark">
             <NavItems />
             <Form inline>
-                <Button variant="outline-info" className='mr-sm-2 button' href="#">
+                <Button variant="outline-info" className='mr-sm-2 button' href="sign-in">
                     Sign In
                 </Button>
-                <Button variant="outline-info" className='button' href='#'>Sign Up</Button>
+                <Button variant="outline-info" className='button' href='sign-up'>
+                    Sign Up
+                </Button>
             </Form>
         </Navbar>
     )
