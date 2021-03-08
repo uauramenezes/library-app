@@ -10,7 +10,7 @@ Here is a live demo of the project: https://uauramenezes.github.io/library-app/
 
 ##Features
 - [x] Search by author, title or generic term
-- [ ] Browse through nav menu
+- [x] Browse through nav menu
 - [ ] Save the books and make a personal library
 - [ ] Add authorization
 
