@@ -30,7 +30,7 @@
     transition: 0.25s
 }
 
-.login {
+.login, .register {
     width: 250px;
 }
 

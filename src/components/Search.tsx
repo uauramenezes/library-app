@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 
 import blackCover from '../static/images/black-cover.jpg';
+import changeCursor from './utils/changeCursor';
 
 interface Book {
     key: string;
@@ -48,10 +49,6 @@ export default function Home() {
                 console.log(err);
                 showErrorMessage();
             });
-    }
-
-    function changeCursor(style: string) {
-        document.body.style.cursor = style;
     }
 
     function changeDivPosition() {
