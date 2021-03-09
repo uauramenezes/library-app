@@ -9,7 +9,7 @@ export default function SignIn() {
                         <form className="box">
                             <h1>Login</h1>
                             <p className='text'> Please enter your login and password!</p>
-                            <input type="text" className='login' placeholder="Username" />
+                            <input type="email" className='login' placeholder="Username" />
                             <input type="password" className='login' placeholder="Password" />
                             <a className="forgot text" href="/">Forgot password?</a>
                             <Button className='submit' variant="outline-info">Login</Button>

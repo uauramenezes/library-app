@@ -2,8 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 
-import './Search.css';
-import blackCover from './black-cover.jpg';
+import blackCover from '../static/images/black-cover.jpg';
 
 interface Book {
     key: string;

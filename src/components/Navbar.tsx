@@ -5,8 +5,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
-import './Navbar.css'
-
 function NavItems() {
     let width = window.innerWidth;
     let url = process.env.PUBLIC_URL;

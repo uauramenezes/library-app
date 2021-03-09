@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import './index.css';
 import App from './App';
+
+import './static/css/Authorization.css';
+import './static/css/Search.css';
+import './static/css/Navbar.css';
+import './static/css/index.css';
+import './static/css/App.css';
 
 ReactDOM.render(
     <React.StrictMode>
