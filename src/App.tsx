@@ -16,7 +16,7 @@ function App() {
     <NavBar />
         <Router basename={process.env.PUBLIC_URL}>
             <Switch>
-                <Route exact path='/search' component={Search} />
+                <Route exact path='/' component={Search} />
                 <Route exact path='/sign-in' component={SignIn} />
                 <Route exact path='/sign-up' component={SignUp} />
             </Switch>

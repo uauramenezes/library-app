@@ -9,11 +9,12 @@ import './Navbar.css'
 
 function NavItems() {
     let width = window.innerWidth;
+    let url = process.env.PUBLIC_URL;
 
     if (width < 450) {
         return (
             <NavDropdown title="Library App" id="basic-nav-dropdown" className='drop-down'>
-                <NavDropdown.Item href="search">Home</NavDropdown.Item>
+                <NavDropdown.Item href={url}>Home</NavDropdown.Item>
                 <NavDropdown.Item href="#" disabled>My Library</NavDropdown.Item>
                 <NavDropdown.Item href="#" disabled>Account</NavDropdown.Item>
             </NavDropdown>
@@ -21,9 +22,9 @@ function NavItems() {
     } else {
         return(
             <React.Fragment>
-                <Navbar.Brand href="search" className='site-title'>Library App</Navbar.Brand>
+                <Navbar.Brand href={url} className='site-title'>Library App</Navbar.Brand>
                 <Nav className="mr-auto" id='nav'>
-                    <Nav.Link href="search">Home</Nav.Link>
+                    <Nav.Link href={url}>Home</Nav.Link>
                     <Nav.Link href="#" disabled>My Library</Nav.Link>
                     <Nav.Link href="#" disabled>Account</Nav.Link>
                 </Nav>
