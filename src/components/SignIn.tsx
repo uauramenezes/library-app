@@ -1,12 +1,28 @@
 import Button from 'react-bootstrap/Button';
 import validateUserData from './utils/validateUserData';
+import { useCookies } from 'react-cookie';
+import redirect from './utils/redirect';
 
 export default function SignIn() {
-    function authenticate() {
+    const [cookie, setCookie] = useCookies(["user"]);
+
+    if (cookie.user) {
+        redirect();
+    }
+
+    async function authenticate() {
         let userEmail = document.getElementById('login-email') as HTMLInputElement;
         let password = document.getElementById('password') as HTMLInputElement;
 
-        validateUserData(userEmail.value, password.value, 'sign-in');
+        let result = await validateUserData(userEmail.value, password.value, 'sign-in');
+        if (result) {
+            setCookie('user', 'userEmail.value', {
+                path: '/',
+                sameSite: 'strict',
+                maxAge: 3600
+            });
+            redirect();
+        }
     }
 
     return(

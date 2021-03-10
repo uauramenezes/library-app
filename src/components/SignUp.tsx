@@ -1,12 +1,29 @@
 import Button from 'react-bootstrap/Button';
 import validateUserData from './utils/validateUserData';
+import { useCookies } from 'react-cookie';
+import redirect from './utils/redirect';
 
 export default function SignUp() {
-    function authenticate() {
-        let userEmail = document.getElementById('register-email') as HTMLInputElement;
-        let password = document.getElementById('password1') as HTMLInputElement;
+    const [cookie, setCookie] = useCookies(["user"]);
 
-        validateUserData(userEmail.value, password.value, 'sign-up');
+    if (cookie.user === 'admin') {
+        redirect();
+    }
+    
+    async function authenticate() {
+        let userEmail = document.getElementById('register-email') as HTMLInputElement;
+        let password = document.getElementById('password') as HTMLInputElement;
+
+        let result = await validateUserData(userEmail.value, password.value, 'sign-up')
+        if (result) {
+            setCookie('user', 'userEmail.value', {
+                path: '/',
+                sameSite: 'strict',
+                maxAge: 3600
+            });
+            redirect();
+        }
+    
     }
 
     return(

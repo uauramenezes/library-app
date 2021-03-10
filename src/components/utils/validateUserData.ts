@@ -1,27 +1,32 @@
 import axios from 'axios';
-import redirect from './redirect';
 import validator from 'validator';
 import errorMessage from './errorMessage';
 
-function validateUserData(email: string, password: string, type: string) {
+async function validateUserData(email: string, password: string, action:string):Promise<boolean> {
   if (validator.isEmpty(email) || !validator.isEmail(email)) {
-    errorMessage("Invalid email format");
+    return errorMessage("Invalid email format");
   } else if (password.length < 8) {
-    errorMessage("Password must contain at least 8 characters");
+    return errorMessage("Password must contain at least 8 characters");
   } else {
-    validateOnServer(email, password, type);
+    let result = await validateOnServer(email, password, action);
+    if (result) {
+      return true;
+    } else {
+      return false
+    }
   }
 }
 
-function validateOnServer(email:string, password:string, type:string) {
-  axios.post(`http://localhost:8080/auth/${type}`, {
+async function validateOnServer(email:string, password:string, type:string):Promise<boolean> {
+  let isAuth = false;
+  await axios.post(`http://localhost:8080/auth/${type}`, {
     email: email,
     password: password,
   })
     .then((res) => {
       if (res.status === 200) {
         errorMessage('none');
-        redirect();
+        isAuth = true;
       }
     })
     .catch(error => {
@@ -35,6 +40,8 @@ function validateOnServer(email:string, password:string, type:string) {
         console.log(error);
       }
     });
+
+    return isAuth;
 }
 
 export default validateUserData;

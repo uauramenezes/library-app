@@ -4,6 +4,39 @@ import Form from 'react-bootstrap/Form';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { useCookies } from 'react-cookie';
+
+function NavButtons() {
+    const [cookie, , removeCookie] = useCookies(["user"]);
+
+    if (cookie.user) {
+        return (
+            <Form inline>
+                <Button variant="outline-info"
+                className='button'
+                href={process.env.PUBLIC_URL}
+                onClick={() =>{removeCookie('user', {
+                    path: '/',
+                    sameSite: 'strict'
+                })}}
+                >
+                    Sign Out
+                </Button>
+            </Form>
+        )
+    } else {
+        return(
+            <Form inline>
+                <Button variant="outline-info" className='mr-sm-2 button' href="sign-in">
+                    Sign In
+                </Button>
+                <Button variant="outline-info" className='button' href='sign-up'>
+                    Sign Up
+                </Button>
+            </Form>
+        )
+    }
+}
 
 function NavItems() {
     let width = window.innerWidth;
@@ -35,14 +68,7 @@ export default function NavBar() {
     return(
         <Navbar bg="dark" variant="dark">
             <NavItems />
-            <Form inline>
-                <Button variant="outline-info" className='mr-sm-2 button' href="sign-in">
-                    Sign In
-                </Button>
-                <Button variant="outline-info" className='button' href='sign-up'>
-                    Sign Up
-                </Button>
-            </Form>
+            <NavButtons />
         </Navbar>
     )
 }

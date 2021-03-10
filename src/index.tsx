@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { CookiesProvider } from "react-cookie";
 
 import App from './App';
 
@@ -10,8 +11,8 @@ import './static/css/Navbar.css';
 import './static/css/index.css';
 
 ReactDOM.render(
-    <React.StrictMode>
+    <CookiesProvider>
         <App />
-    </React.StrictMode>,
+    </CookiesProvider>,
   document.getElementById('root')
 );
