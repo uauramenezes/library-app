@@ -8,18 +8,16 @@ import SignUp from './components/SignUp';
 
 function App() {
 
-  return (
-    <div className="App">
-    <NavBar />
+    return (
         <Router basename={process.env.PUBLIC_URL}>
+            <NavBar />
             <Switch>
                 <Route exact path='/' component={Search} />
                 <Route exact path='/sign-in' component={SignIn} />
                 <Route exact path='/sign-up' component={SignUp} />
             </Switch>
         </Router>
-    </div>
-  );
+    );
 }
 
 export default App;

@@ -1,21 +1,40 @@
+import axios from 'axios';
+import redirect from './redirect';
 import validator from 'validator';
-import errorMessage from './errorMessage'
+import errorMessage from './errorMessage';
 
-function validateSignUp(email:string, password1:string, password2:string):boolean {
-  let validUser = false;
-
-  if (!validator.isEmail(email) || validator.isEmpty(email)) {
-    errorMessage("invalid");
-  } else if (password1 !== password2) {
-    errorMessage("match");
-  } else if (password1.length < 8 || password2.length < 8) {
-    errorMessage("length");
-  }  else {
-    validUser = true;
-    errorMessage("none");
+function validateUserData(email: string, password: string, type: string) {
+  if (validator.isEmpty(email) || !validator.isEmail(email)) {
+    errorMessage("Invalid email format");
+  } else if (password.length < 8) {
+    errorMessage("Password must contain at least 8 characters");
+  } else {
+    validateOnServer(email, password, type);
   }
-
-  return validUser;
 }
 
-export {validateSignUp};
+function validateOnServer(email:string, password:string, type:string) {
+  axios.post(`http://localhost:8080/auth/${type}`, {
+    email: email,
+    password: password,
+  })
+    .then((res) => {
+      if (res.status === 200) {
+        errorMessage('none');
+        redirect();
+      }
+    })
+    .catch(error => {
+      let status = (error.message as string).slice(-3);
+
+      if (status === '403' || status === '404') {
+        let errorMsg = error.response.data.error;
+        errorMessage(errorMsg);
+      } else {
+        errorMessage('OOPS! An error occurred!');
+        console.log(error);
+      }
+    });
+}
+
+export default validateUserData;

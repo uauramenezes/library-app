@@ -8,7 +8,6 @@ import './static/css/Authorization.css';
 import './static/css/Search.css';
 import './static/css/Navbar.css';
 import './static/css/index.css';
-import './static/css/App.css';
 
 ReactDOM.render(
     <React.StrictMode>

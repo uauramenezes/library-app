@@ -1,24 +1,14 @@
-function errorMessage(error: string) {
+function errorMessage(msg: string):boolean {
   let errorMsg = document.getElementById('error-msg') as HTMLInputElement;
-  errorMsg.style.display = 'inline';
 
-  if (error === 'invalid') {
-    errorMsg.textContent = "Invalid email format";
-  } else if (error === "match") {
-    errorMsg.textContent = "Passwords did not match";
-  } else if (error === 'length') {
-    errorMsg.textContent = "Password must contain at least 8 characters";
-  } else if (error === 'used') {
-    errorMsg.textContent = "Email already in use";
-  } else if (error === 'not found') {
-    errorMsg.textContent = "Email not found";
-  } else if (error === 'incorrect') {
-    errorMsg.textContent = "Incorrect Password";
-  } else if (error === 'server') {
-    errorMsg.textContent = "Ops! Something went wrong!";
-  } else {
+  if (msg === 'none') {
     errorMsg.style.display = 'none';
+  } else {
+    errorMsg.style.display = 'inline';
+    errorMsg.textContent = msg
   }
+
+  return false;
 }
 
 export default errorMessage;
