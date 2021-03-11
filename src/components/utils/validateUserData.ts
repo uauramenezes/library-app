@@ -19,11 +19,12 @@ async function validateUserData(email: string, password: string, action:string):
 
 async function validateOnServer(email:string, password:string, type:string):Promise<boolean> {
   let isAuth = false;
-  await axios.post(`http://localhost:8080/auth/${type}`, {
+  await axios.post(`http://localhost:5555/auth/${type}`, {
     email: email,
     password: password,
   })
     .then((res) => {
+      console.log(res)
       if (res.status === 200) {
         errorMessage('none');
         isAuth = true;

@@ -16,7 +16,7 @@ export default function SignIn() {
 
         let result = await validateUserData(userEmail.value, password.value, 'sign-in');
         if (result) {
-            setCookie('user', 'userEmail.value', {
+            setCookie('user', userEmail.value, {
                 path: '/',
                 sameSite: 'strict',
                 maxAge: 3600
