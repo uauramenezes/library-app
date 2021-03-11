@@ -11,15 +11,13 @@ export default function SignUp() {
     }
     
     async function authenticate() {
-        let userEmail = document.getElementById('register-email') as HTMLInputElement;
-        let password = document.getElementById('password') as HTMLInputElement;
+        let email = (document.getElementById('email') as HTMLInputElement).value;
 
-        let result = await validateUserData(userEmail.value, password.value, 'sign-up')
+        let result = await validateUserData(email, 'sign-up')
         if (result) {
-            setCookie('user', userEmail.value, {
+            setCookie('user', email, {
                 path: '/',
-                sameSite: 'strict',
-                maxAge: 3600
+                sameSite: 'strict'
             });
             redirect();
         }
@@ -34,8 +32,8 @@ export default function SignUp() {
                         <form className="box">
                             <h1>Register</h1>
                             <p className='text'> Please enter an email and password!</p>
-                            <input type="email" className='register' placeholder="Email" id='register-email' required />
-                            <input type="password" className='register' placeholder="Password" id='password' required />
+                            <input type="email" placeholder="Email" id='email' required />
+                            <input type="password" placeholder="Password" id='password' required />
                             <p id="error-msg"></p>
                             <Button className='submit' variant="outline-info" onClick={
                                 () => {

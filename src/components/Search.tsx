@@ -70,7 +70,7 @@ export default function Home() {
     useEffect(() => {
         function handleScroll() {
             if (window.innerHeight + document.documentElement.scrollTop < document.body.scrollHeight
-            || showList) return;
+            || showList || bookData.length === bookList.length) return;
 
             changeCursor('wait');
             setPage(page + 1);
@@ -79,7 +79,7 @@ export default function Home() {
         
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [page, showList]);
+    }, [bookData, bookList, page, showList]);
 
     useEffect(() => {
         if (!showList || bookData.length === bookList.length) return;

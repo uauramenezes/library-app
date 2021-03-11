@@ -14,7 +14,7 @@ function NavButtons() {
             <Form inline>
                 <Button variant="outline-info"
                 className='button'
-                href={process.env.PUBLIC_URL}
+                href={`${process.env.PUBLIC_URL}/`}
                 onClick={() =>{removeCookie('user', {
                     path: '/',
                     sameSite: 'strict'
@@ -39,15 +39,25 @@ function NavButtons() {
 }
 
 function NavItems() {
+    const [cookie] = useCookies(["user"]);
+
+    let accountPath:string;
+
+    if (cookie.user) {
+        accountPath = 'account';
+    } else {
+        accountPath = 'sign-in'
+    }
+
     let width = window.innerWidth;
-    let url = process.env.PUBLIC_URL;
+    let url = `${process.env.PUBLIC_URL}/`;
 
     if (width < 450) {
         return (
             <NavDropdown title="Library App" id="basic-nav-dropdown" className='drop-down'>
                 <NavDropdown.Item href={url}>Home</NavDropdown.Item>
                 <NavDropdown.Item href="#" disabled>My Library</NavDropdown.Item>
-                <NavDropdown.Item href="#" disabled>Account</NavDropdown.Item>
+                <NavDropdown.Item href={accountPath}>Account</NavDropdown.Item>
             </NavDropdown>
         )
     } else {
@@ -57,7 +67,7 @@ function NavItems() {
                 <Nav className="mr-auto" id='nav'>
                     <Nav.Link href={url}>Home</Nav.Link>
                     <Nav.Link href="#" disabled>My Library</Nav.Link>
-                    <Nav.Link href="#" disabled>Account</Nav.Link>
+                    <Nav.Link href={accountPath}>Account</Nav.Link>
                 </Nav>
             </React.Fragment>
         )

@@ -10,13 +10,18 @@ const app = express();
 
 const port = process.env.PORT || 5555;
 
-const mongoDb=`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}${process.env.DB_PATH}`;
+const mongoDb=`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.cszuj.mongodb.net/LibraryApp?retryWrites=true&w=majority`;
 
-app.use(express.json());
 app.use(cors());
-app.use('/auth', router);
+app.use(express.json());
+app.use('/api/auth', router);
 
-mongoose.connect(mongoDb , {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(mongoDb , {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true
+});
+
 const db = mongoose.connection;
 
 db.on("error", (err)=>{console.error(err)});

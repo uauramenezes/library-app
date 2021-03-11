@@ -2,10 +2,10 @@
   "name": "library-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "tsnd --respawn --transpile-only index.ts"
+    "server": "tsnd --respawn --transpile-only ./auth/index.ts"
   },
   "keywords": [],
   "author": "",

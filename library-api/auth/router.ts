@@ -26,7 +26,7 @@ router.post('/sign-in', (req, res) => {
 
 router.post('/sign-up', (req, res) => {
   bcrypt.hash(req.body.password, salt, (error, hash) => {
-    if (error) res.status(500).json(error)
+    if (error) res.status(500).json(error);
     else {
       UserModel.findOne({email: req.body.email})
         .then(user => {
@@ -46,6 +46,42 @@ router.post('/sign-up', (req, res) => {
         })
     }
   })
+});
+
+router.put('/update', (req, res) => {
+  bcrypt.hash(req.body.password, salt, (error, hash) => {
+    if (error) res.status(500).json(error);
+    else {
+      UserModel.findOneAndUpdate({email: req.body.email}, {
+        password: hash
+      })
+        .then(user => {
+          if (user) {
+            res.status(200).json(user);
+          } else {
+            res.status(404).json({error: 'Email not found'});
+          }
+        })
+        .catch(error => {
+          res.status(500).json(error);
+        });
+    }
+  })
+
+})
+
+router.delete('/delete', (req, res) => {
+  UserModel.findOneAndDelete({email: req.body.email})
+    .then(user => {
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        res.status(404).json({error: 'Email not found'});
+      }
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    })
 });
 
 export default router;

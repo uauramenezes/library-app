@@ -4,6 +4,7 @@ import Search from './components/Search';
 import NavBar from './components/Navbar';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
+import Account from './components/Account';
 
 function App() {
     return (
@@ -11,6 +12,7 @@ function App() {
             <NavBar />
             <Switch>
                 <Route exact path='/' component={Search} />
+                <Route exact path='/account' component={Account} />
                 <Route exact path='/sign-in' component={SignIn} />
                 <Route exact path='/sign-up' component={SignUp} />
             </Switch>
