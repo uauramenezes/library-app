@@ -14,7 +14,7 @@ const mongoDb=`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@c
 
 app.use(cors());
 app.use(express.json());
-app.use('/api/auth', router);
+app.use('/', router);
 
 mongoose.connect(mongoDb , {
   useNewUrlParser: true,

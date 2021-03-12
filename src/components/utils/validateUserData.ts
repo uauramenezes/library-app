@@ -21,7 +21,7 @@ async function validateUserData(email:string, action:string):Promise<boolean> {
 
 async function sendData(email:string, password: string, action:string):Promise<boolean> {
   let response = false;
-  await axios.post(`http://localhost:5555/auth/${action}`, {
+  await axios.post(`https://library-app-auth-api.herokuapp.com/${action}`, {
     email: email,
     password: password
   })

@@ -6,7 +6,7 @@ async function updateAccount(email: string) {
 
   let response = false;
 
-  await axios.put('http://localhost:5555/auth/update', {
+  await axios.put('https://library-app-auth-api.herokuapp.com/update', {
     email: email,
     password: password
   })
@@ -33,7 +33,7 @@ async function updateAccount(email: string) {
 
 async function deleteAccount(email:string) {
   let response = false;
-  await axios.delete('http://localhost:5555/auth/delete', {
+  await axios.delete('https://library-app-auth-api.herokuapp.com/delete', {
     data: {
       email: email
     }
