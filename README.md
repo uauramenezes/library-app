@@ -10,26 +10,28 @@ Here is a live demo of the project: https://uauramenezes.github.io/library-app/
 
 ##Features
 - [x] Search by author, title or generic term
-- [x] Browse through nav menu
+- [x] Add authorization
 - [ ] Save the books and make a personal library
-- [ ] Add authorization
 
 ## Built with
 * React
+* Node.js
+* Express
 * TypeScript
 * Bootstrap
 * CSS
 * Open Library Search API
 
-## Motivation
+## About
 The original objective of this project was mainly to learn how to use a third-party API. And also to practice TypeScript and Bootstrap.
 
 The secondary objective was to turn it into a simple CRUD application with authentication.
 
-It makes use of:
-* React, and React Hooks, for the DOM manipulation and update,
+The project is built with:
+* Node.js and Express for the server-side authentication,
+* React, and React Hooks, for the DOM manipulation,
+* Open Library Search API as the search mechanism,
 * TypeScript to add type system and null checks,
-* Open Library Search API as the search mechanism.
 * Bootstrap and pure CSS to style the page.
     
 ## Setup
