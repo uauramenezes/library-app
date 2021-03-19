@@ -69,7 +69,6 @@ router.put('/update', (req, res) => {
         });
     }
   })
-
 })
 
 router.delete('/delete', (req, res) => {

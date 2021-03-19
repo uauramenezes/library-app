@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
-import {validateUserData, sendData} from './utils/validateUserData';
+import {validateUserData, createUser} from './utils/userAccount';
 import { useCookies } from 'react-cookie';
-import redirect from './utils/redirect';
+import {redirect} from './utils/utils';
 
 export default function SignUp() {
   const [cookie, setCookie] = useCookies(["user"]);
@@ -15,7 +15,7 @@ export default function SignUp() {
     let password = (document.getElementById('password') as HTMLInputElement).value;
     
     if (validateUserData(email, password)) {
-      sendData('sign-up', email, password)
+      createUser('sign-up', email, password)
         .then(result => {
           if (result) {
             setCookie('user', email, {

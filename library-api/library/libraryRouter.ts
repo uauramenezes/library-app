@@ -13,7 +13,7 @@ router.post('/create', (req, res, next) => {
         res.status(403).json({error: "Email already in use"});
       }
       else {
-        const newLibrary = new LibraryModel({email: req.body.email, bookList: req.body.bookList});
+        const newLibrary = new LibraryModel({email: req.body.email, bookList: []});
         newLibrary.save()
           .then(user => {
             res.status(200).json(user);

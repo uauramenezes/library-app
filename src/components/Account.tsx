@@ -1,7 +1,7 @@
-import {deleteAccount, updateAccount} from './utils/updateUserAccount';
+import {deleteUser, updateUser} from './utils/userAccount';
 import Button from 'react-bootstrap/Button';
 import { useCookies } from 'react-cookie';
-import redirect from './utils/redirect'
+import {redirect} from './utils/utils'
 
 export default function Account() {
   const [cookie, , removeCookie] = useCookies(["user"]);
@@ -12,17 +12,19 @@ export default function Account() {
     redirect();
   } 
 
-  async function deleteUser() {
+  function deleteAccount() {
     let del = window.confirm("Are you sure?");
-  if (del) {
-      let result = await deleteAccount(cookie.user);
-      if (result) {
-        removeCookie('user', {
-          path: '/',
-          sameSite: 'strict'
+    if (del) {
+      deleteUser(cookie.user)
+        .then(result => {
+          if (result) {
+            removeCookie('user', {
+              path: '/',
+              sameSite: 'strict'
+            })
+            redirect();
+          }
         })
-        redirect();
-      }
     }
   }
 
@@ -49,7 +51,7 @@ export default function Account() {
               className='submit'
               variant="danger"
               id='delete'
-              onClick={() => deleteUser()}>
+              onClick={() => deleteAccount()}>
                 Delete
               </Button>
               <Button 
@@ -57,7 +59,7 @@ export default function Account() {
               variant="primary"
               id='update'
               onClick={() => {
-                updateAccount(cookie.user);
+                updateUser(cookie.user);
               }}
               >
                 Update
