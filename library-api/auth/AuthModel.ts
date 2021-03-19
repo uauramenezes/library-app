@@ -1,11 +1,11 @@
 import {model, Schema, Model, Document} from 'mongoose';
 
-interface IUser extends Document {
+interface AuthInterface extends Document {
   email: string;
   password: string;
 }
 
-const UserSchema: Schema = new Schema({
+const AuthSchema: Schema = new Schema({
   email: {
     type: String,
     required: true,
@@ -17,6 +17,6 @@ const UserSchema: Schema = new Schema({
   },
 });
 
-const User: Model<IUser> = model('User', UserSchema);
+const AuthModel: Model<AuthInterface> = model('User', AuthSchema);
 
-export default User;
+export default AuthModel;

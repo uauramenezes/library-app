@@ -1,12 +1,12 @@
 import bcrypt from 'bcrypt';
 import express from 'express';
-import UserModel from './UserModel';
+import AuthModel from './AuthModel';
 
 const router = express.Router();
 const salt = 10;
 
 router.post('/sign-in', (req, res) => {
-  UserModel.findOne({email: req.body.email})
+  AuthModel.findOne({email: req.body.email})
     .then(user => {
       if(!user) {
         res.status(404).json({error: 'Email not found'});
@@ -28,13 +28,13 @@ router.post('/sign-up', (req, res) => {
   bcrypt.hash(req.body.password, salt, (error, hash) => {
     if (error) res.status(500).json(error);
     else {
-      UserModel.findOne({email: req.body.email})
+      AuthModel.findOne({email: req.body.email})
         .then(user => {
           if (user) {
             res.status(403).json({error: "Email already in use"});
           }
           else {
-            const newUser = new UserModel({email: req.body.email, password: hash});
+            const newUser = new AuthModel({email: req.body.email, password: hash});
             newUser.save()
               .then(user => {
                 res.status(200).json(user);
@@ -52,9 +52,11 @@ router.put('/update', (req, res) => {
   bcrypt.hash(req.body.password, salt, (error, hash) => {
     if (error) res.status(500).json(error);
     else {
-      UserModel.findOneAndUpdate({email: req.body.email}, {
-        password: hash
-      })
+      AuthModel.findOneAndUpdate(
+        {email: req.body.email}, 
+        {password: hash},
+        {useFindAndModify: false}
+      )
         .then(user => {
           if (user) {
             res.status(200).json(user);
@@ -71,7 +73,7 @@ router.put('/update', (req, res) => {
 })
 
 router.delete('/delete', (req, res) => {
-  UserModel.findOneAndDelete({email: req.body.email})
+  AuthModel.findOneAndDelete({email: req.body.email})
     .then(user => {
       if (user) {
         res.status(200).json(user);

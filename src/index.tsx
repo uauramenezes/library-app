@@ -12,7 +12,7 @@ import './static/css/index.css';
 
 ReactDOM.render(
     <CookiesProvider>
-        <App />
+      <App />
     </CookiesProvider>,
   document.getElementById('root')
 );

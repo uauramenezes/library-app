@@ -1,21 +1,21 @@
 @media (max-width: 350px) {
-    .navbar {
-        width: 100%;
-        padding: 15px 5px;
-    }
+  .navbar {
+    width: 100%;
+    padding: 15px 5px;
+  }
 }
 
 .site-title {
-    font-family: 'Fredericka the Great';
-    font-size: 35pt;
-    color: #e1dcc5 !important;
+  font-family: 'Fredericka the Great';
+  font-size: 35pt;
+  color: #e1dcc5 !important;
 }
 
 .site-title:focus,
 .site-title:hover,
 .nav-link:focus,
 .nav-link:hover {
-    outline: none !important;
-    text-decoration: underline;
+  outline: none !important;
+  text-decoration: underline;
 }
 
