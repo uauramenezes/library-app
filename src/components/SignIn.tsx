@@ -1,5 +1,5 @@
 import Button from 'react-bootstrap/Button';
-import {validateUserData, createUser} from './utils/userAccount';
+import {validateUserData, createAccount} from './utils/userAccount';
 import { useCookies } from 'react-cookie';
 import {redirect} from './utils/utils';
 
@@ -15,7 +15,7 @@ export default function SignIn() {
     let password = (document.getElementById('password') as HTMLInputElement).value;
 
     if (validateUserData(email, password)) {
-    createUser('sign-in', email, password)
+      createAccount('sign-in', email, password)
       .then(result => {
         if (result) {
           setCookie('user', email, {
@@ -38,7 +38,7 @@ export default function SignIn() {
               <p className='text'> Please enter your email and password!</p>
               <input type="email" placeholder="Email" id='email' />
               <input type="password" placeholder="Password" id='password' />
-              <p id="error-msg"></p>
+              <p id="msg"></p>
               <Button
               className='submit'
               variant="outline-info"

@@ -42,6 +42,8 @@ router.put('/add', (req, res, next) => {
   LibraryModel.findOne({email: req.body.email})
     .then(library => {
       if (library) {
+        if (library.bookList.length === 0) next()
+        
         library?.bookList.forEach(arr => {
           if (arr.key === req.body.book.key) {
             res.status(403).json("Book already saved")

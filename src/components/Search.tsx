@@ -4,7 +4,7 @@ import { useCookies } from 'react-cookie';
 
 import {getBookList, updateBookList} from './utils/bookList'
 import blackCover from '../static/images/black-cover.jpg';
-import {changeCursor} from './utils/utils';
+import {changeCursor, changeDivPosition} from './utils/utils'
 import Book from './utils/BookInterface';
 
 export default function Home() {
@@ -14,19 +14,20 @@ export default function Home() {
   const [showList, setShowList] = useState(false);
   const [page, setPage] = useState(0);
 
-  const userBookList:Book[] = [];
+  let userBookList:Book[];
 
-  if (cookie.user) {
-    let url = `http://localhost:5555/library/${cookie.user}`
-    getBookList(url)
-        .then(data => {
-            userBookList.push(data)
-        })
-  } else {
-    console.log(cookie.user)
-  }
+  window.addEventListener('load', async () => {
+    if (cookie.user) {
+      let url = `http://localhost:5555/library/${cookie.user}`
+      let data = await getBookList(url, 'MongoDB');
+      
+      if (data.length > 0) {
+        userBookList = data;
+      }
+    }
+  })
 
-  function getBookData() {
+  async function getBookData() {
     const input = document.getElementById('input') as HTMLInputElement;
     const value = document.getElementById('fields') as HTMLInputElement;
 
@@ -36,18 +37,27 @@ export default function Home() {
     if (inputText === "") {
       input.style.border = "2px solid red";
     } else {
-      getBookList(`http://openlibrary.org/search.json?${option}=${inputText}`)
-        .then(data => {
-            setBookData(data);
-            setShowList(true);
-        })
+      changeCursor('wait');
+      changeDivPosition();
+
+      let url = `http://openlibrary.org/search.json?${option}=${inputText}`;
+
+      let data = await getBookList(url, 'OpenLibrary');
+
+      console.log(data)
+      
+      if (data.length > 0) {
+        setBookData(data);
+        setShowList(true);
+        console.log(2)
+      }
     }
   }
 
   useEffect(() => {
     function handleScroll() {
       if (window.innerHeight + document.documentElement.scrollTop < document.body.scrollHeight
-      || showList || bookData.length === bookList.length) return;
+      || showList || (bookData.length === 0 || bookData.length === bookList.length)) return;
 
       changeCursor('wait');
       setPage(page + 1);
@@ -59,7 +69,8 @@ export default function Home() {
   }, [bookData, bookList, page, showList]);
 
   useEffect(() => {
-    if (!showList || bookData.length === bookList.length) return;
+    if ((bookData.length === 0 || bookData.length === bookList.length)
+    || !showList) return;
 
     setTimeout(() => {
       setBookList(bookData.slice(0, (page + 1) * 12));
@@ -69,36 +80,40 @@ export default function Home() {
     setShowList(false);
   }, [bookData, bookList, page, showList]);
 
-  function createBookCard(book: Book) {
-    const coverId = book.cover_i;
-
+  async function createBookCard({key, title, author_name, cover_i}: Book) {
+    let book: Book = {key: key, title: title, author_name: author_name, cover_i: cover_i}
+    const coverId = cover_i;
     let action = 'Add';
 
     const src = coverId
       ? `http://covers.openlibrary.org/b/id/${coverId}-M.jpg`
       : blackCover;
 
-    const authorName = book.author_name === undefined
+    const authorName = author_name === undefined
       ? 'Unknown Author'
-      : book.author_name[0];
+      : author_name[0];
+
+      console.log(userBookList)
 
     userBookList.forEach(userBook => {
-      if (userBook.key === book.key) {
+      if (userBook.key === key) {
         action = 'Remove';
       }
     })
 
+    changeCursor('unset');
+
     return(
-      <li className="book" key={book.key}>
-        <img className='book-cover' src={src} alt={book.title} />
+      <li className="book" key={key}>
+        <img className='book-cover' src={src} alt={title} />
         <div className="details">
-          <h6 className="book-title">{book.title}</h6>
+          <h6 className="book-title">{title}</h6>
           <p className="book-author">by {authorName}</p>
         </div>
         <button
         type="submit"
         className='add-button'
-        onClick={() => updateBookList(action, book, cookie.user)}>
+        onClick={() => updateBookList(action.toLowerCase(), book, cookie.user)}>
           {action}
         </button>
       </li>
@@ -126,6 +141,7 @@ export default function Home() {
         <ul className="book-list">
           {bookList.map(book => createBookCard(book))}
         </ul>
+        <p id="msg"></p>
       </div>
     </div>
   );

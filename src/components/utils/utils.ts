@@ -4,7 +4,8 @@ function changeCursor(style: string) {
 
 function changeDivPosition() {
   let div = document.getElementById('search') as HTMLInputElement;
-  if (div.className === 'search-before') {
+
+  if (div.id === 'search') {
     div.className = 'search-after';
   }
 }
@@ -16,7 +17,7 @@ function redirect() {
 }
 
 function showMessage(msg: string):boolean {
-  let errorMsg = document.getElementById('error-msg') as HTMLInputElement;
+  let errorMsg = document.getElementById('msg') as HTMLInputElement;
 
   if (msg === 'none') {
     errorMsg.style.display = 'none';

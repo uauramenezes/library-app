@@ -12,8 +12,9 @@ function validateUserData(email:string, password:string):boolean {
   }
 }
 
-function createUser(action:string, email:string, password: string):Promise<boolean> {
-  return axios.post(`https://library-app-auth-api.herokuapp.com/${action}`, {
+function createAccount(action:string, email:string, password: string):Promise<boolean> {
+  // https://library-app-auth-api.herokuapp.com/
+  return axios.post(`http://localhost:5555/${action}`, {
     email: email,
     password: password
   })
@@ -32,10 +33,11 @@ function createUser(action:string, email:string, password: string):Promise<boole
     });
 }
 
-function updateUser(email: string) {
+function updateAccount(email: string) {
   let password = (document.getElementById('password') as HTMLInputElement).value;
 
-  return axios.put('https://library-app-auth-api.herokuapp.com/update', {
+  // https://library-app-auth-api.herokuapp.com/auth/update
+  return axios.put('http://localhost:5555/auth/update', {
     email: email,
     password: password
   })
@@ -54,8 +56,9 @@ function updateUser(email: string) {
     });
 }
 
-function deleteUser(email:string) {
-  return axios.delete('https://library-app-auth-api.herokuapp.com/delete', {
+function deleteAccount(action:string, email:string) {
+  // https://library-app-auth-api.herokuapp.com/
+  return axios.delete(`http://localhost:5555/${action}`, {
     data: {
       email: email
     }
@@ -75,4 +78,4 @@ function deleteUser(email:string) {
   });
 }
 
-export {createUser, deleteUser, updateUser, validateUserData};
+export {createAccount, deleteAccount, updateAccount, validateUserData};

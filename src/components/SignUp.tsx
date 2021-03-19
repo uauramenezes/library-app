@@ -1,7 +1,9 @@
 import Button from 'react-bootstrap/Button';
-import {validateUserData, createUser} from './utils/userAccount';
 import { useCookies } from 'react-cookie';
 import {redirect} from './utils/utils';
+
+import {validateUserData, createAccount} from './utils/userAccount';
+//import {createBookList} from './utils/bookList';
 
 export default function SignUp() {
   const [cookie, setCookie] = useCookies(["user"]);
@@ -15,14 +17,19 @@ export default function SignUp() {
     let password = (document.getElementById('password') as HTMLInputElement).value;
     
     if (validateUserData(email, password)) {
-      createUser('sign-up', email, password)
+      createAccount('auth/sign-up', email, password)
         .then(result => {
           if (result) {
-            setCookie('user', email, {
-              path: '/',
-              sameSite: 'strict'
-            });
-            redirect();
+            createAccount('library/create', email, password)
+              .then(res => {
+                if (res) {
+                  setCookie('user', email, {
+                    path: '/',
+                    sameSite: 'strict'
+                  });
+                  redirect();
+                }
+              })
           }
         })
     } 
@@ -38,7 +45,7 @@ export default function SignUp() {
               <p className='text'> Please enter an email and password!</p>
               <input type="email" placeholder="Email" id='email' required />
               <input type="password" placeholder="Password" id='password' required />
-              <p id="error-msg"></p>
+              <p id="msg"></p>
               <Button className='submit' variant="outline-info" onClick={
                 () => {
                   authenticate();

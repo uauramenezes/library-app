@@ -1,4 +1,5 @@
-import {deleteUser, updateUser} from './utils/userAccount';
+import {deleteAccount, updateAccount} from './utils/userAccount';
+//import {deleteBookList} from './utils/bookList';
 import Button from 'react-bootstrap/Button';
 import { useCookies } from 'react-cookie';
 import {redirect} from './utils/utils'
@@ -12,12 +13,13 @@ export default function Account() {
     redirect();
   } 
 
-  function deleteAccount() {
+  function deleteUser() {
     let del = window.confirm("Are you sure?");
     if (del) {
-      deleteUser(cookie.user)
+      deleteAccount('auth/delete', cookie.user)
         .then(result => {
           if (result) {
+            deleteAccount('library/delete', cookie.user)
             removeCookie('user', {
               path: '/',
               sameSite: 'strict'
@@ -38,7 +40,7 @@ export default function Account() {
               <p className='text'>{msg}</p>
               <input type="email" defaultValue={cookie.user} id='email' disabled />
               <input type="password" placeholder="********" id='password'/>
-              <p id="error-msg"></p>
+              <p id="msg"></p>
               <div>
               <Button
               className='submit'
@@ -51,7 +53,7 @@ export default function Account() {
               className='submit'
               variant="danger"
               id='delete'
-              onClick={() => deleteAccount()}>
+              onClick={() => deleteUser()}>
                 Delete
               </Button>
               <Button 
@@ -59,7 +61,7 @@ export default function Account() {
               variant="primary"
               id='update'
               onClick={() => {
-                updateUser(cookie.user);
+                updateAccount(cookie.user);
               }}
               >
                 Update
