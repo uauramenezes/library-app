@@ -18,8 +18,8 @@ export default function Home() {
 
   window.addEventListener('load', async () => {
     if (cookie.user) {
-      let url = `http://localhost:5555/library/${cookie.user}`
-      let data = await getBookList(url, 'MongoDB');
+      let url = `${process.env.REACT_APP_API}/library/${cookie.user}`
+      let data = await getBookList(url, 'bookList');
       
       if (data.length > 0) {
         userBookList = data;
@@ -40,9 +40,9 @@ export default function Home() {
       changeCursor('wait');
       changeDivPosition();
 
-      let url = `http://openlibrary.org/search.json?${option}=${inputText}`;
+      let url = `${process.env.REACT_APP_OL_API}?${option}=${inputText}`;
 
-      let data = await getBookList(url, 'OpenLibrary');
+      let data = await getBookList(url, 'bookData');
 
       console.log(data)
       
@@ -86,7 +86,7 @@ export default function Home() {
     let action = 'Add';
 
     const src = coverId
-      ? `http://covers.openlibrary.org/b/id/${coverId}-M.jpg`
+      ? `${process.env.REACT_APP_OL_COVER_API}/${coverId}-M.jpg`
       : blackCover;
 
     const authorName = author_name === undefined

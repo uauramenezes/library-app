@@ -96,12 +96,6 @@
   color: #fff;
 }
 
-#error-msg {
-  color: rgb(250, 55, 55);
-  display: none;
-  font-size: 11pt;
-}
-
 @media (max-width: 400px) {
   .box {
     left: -1% !important;

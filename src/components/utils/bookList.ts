@@ -3,23 +3,20 @@ import Book from './BookInterface';
 import {showMessage} from './utils';
 
 function createBookList(user:string) {
-  return axios.post('http://localhost:5555/library/create', {
+  return axios.post(`${process.env.REACT_APP_API}library/create`, {
     email: user
   })
   .then((res) => {
     if (res.status === 200) {
       return showMessage('none');
-    }
+    } 
   })
   .catch(error => {
-    let status = (error.message as string).slice(-3);
-
-    if (status === '403' || status === '404') {
-      let errorMsg = error.response.data.error;
-      return showMessage(errorMsg);
-    } else {
-      console.log(error);
+    if (error.response.status === 500) {
+      console.log(error)
       return showMessage('OOPS! An error occurred!');
+    } else {
+      return showMessage(error.response.data.error)
     }
   });
 }
@@ -38,27 +35,27 @@ async function getBookList(url: string, path: string) {
   await axios.get(url)
     .then((res) => {
       if (res.status === 200) {
-        if (path === 'MongoDB') {
+        if (path === 'bookList') {
           data = res.data.bookList
         } else {
           data = res.data.docs
         }
-      } else if (res.status === 404) {
-        showMessage(res.data.error)
-      } else {
-        showMessage('OOPS! An error occurred!')
-      };
+      } 
     })
-    .catch(err => {
-      console.log(err);
-      showMessage('OOPS! An error occurred!');
+    .catch(error => {
+      if (error.response.status === 500) {
+        console.log(error)
+        return showMessage('OOPS! An error occurred!');
+      } else {
+        return showMessage(error.response.data.error)
+      }
     });
 
   return data;
 }
 
 function updateBookList(action:string, book:Book, user:string) {
-  let url = `http://localhost:5555/library/${action}`;
+  let url = `${process.env.REACT_APP_API}/${action}`;
   return axios.put(url, {
     email: user,
     book: book,
@@ -66,18 +63,16 @@ function updateBookList(action:string, book:Book, user:string) {
   .then((res) => {
     if (res.status === 200) {
       return showMessage('none');
-    } else if (res.status === 404) {
-      return showMessage(res.data.error);
-    } else {
-      return showMessage('OOPS! An error occurred!');
-    }
+    } 
   })
   .catch(error => {
-    console.log(error);
-    return showMessage('OOPS! An error occurred!');
+    if (error.response.status === 500) {
+      console.log(error)
+      return showMessage('OOPS! An error occurred!');
+    } else {
+      return showMessage(error.response.data.error)
+    }
   });
 }
-
-
 
 export {createBookList, deleteBookList, getBookList, updateBookList}

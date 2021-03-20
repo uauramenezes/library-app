@@ -17,3 +17,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
   monospace;
 }
+
+#msg {
+  color: rgb(250, 55, 55);
+  display: none;
+  font-size: 11pt;
+}

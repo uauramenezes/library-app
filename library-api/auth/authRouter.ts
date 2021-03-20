@@ -13,8 +13,8 @@ router.post('/sign-in', (req, res) => {
       }
       else {
         bcrypt.compare(req.body.password, user.password, (error, match) => {
-          if (error) res.status(500).json(error);
-          else if (match) res.status(200).json(user);
+          if (match) res.status(200).json(user);
+          else if (error) res.status(500).json(error);
           else res.status(403).json({error: 'Incorrect password'});
         })
       }

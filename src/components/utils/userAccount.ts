@@ -12,53 +12,49 @@ function validateUserData(email:string, password:string):boolean {
   }
 }
 
-function createAccount(action:string, email:string, password: string):Promise<boolean> {
-  // https://library-app-auth-api.herokuapp.com/
-  return axios.post(`http://localhost:5555/${action}`, {
+function postRequest(action:string, email:string, password: string):Promise<boolean> {
+  return axios.post(`${process.env.REACT_APP_API}/${action}`, {
     email: email,
     password: password
   })
-    .then((res) => {
-      if (res.status === 200) {
-        return showMessage('none');
-      } else if (res.status === 403 || res.status === 404) {
-        return showMessage(res.data.error);
-      } else {
-        return showMessage('OOPS! An error occurred!');
-      }
+    .then(() => {
+      return showMessage('none');
     })
     .catch(error => {
-      console.log(error);
-      return showMessage('OOPS! An error occurred!');
+      if (error.response.status === 500) {
+        console.log(error)
+        return showMessage('OOPS! An error occurred!');
+      } else {
+        return showMessage(error.response.data.error)
+      }
     });
 }
 
 function updateAccount(email: string) {
   let password = (document.getElementById('password') as HTMLInputElement).value;
 
-  // https://library-app-auth-api.herokuapp.com/auth/update
-  return axios.put('http://localhost:5555/auth/update', {
+  return axios.put(`${process.env.REACT_APP_API}/auth/update`, {
     email: email,
     password: password
   })
     .then((res) => {
+      console.log(res.status)
       if (res.status === 200) {
-        return showMessage('none');
-      } else if (res.status === 403 || res.status === 404) {
-        return showMessage(res.data.error);
-      } else {
-        return showMessage('OOPS! An error occurred!');
+        return showMessage('Password changed');
       }
     })
     .catch(error => {
-      console.log(error);
-      return showMessage('OOPS! An error occurred!');
+      if (error.response.status === 500) {
+        console.log(error)
+        return showMessage('OOPS! An error occurred!');
+      } else {
+        return showMessage(error.response.data.error)
+      }
     });
 }
 
 function deleteAccount(action:string, email:string) {
-  // https://library-app-auth-api.herokuapp.com/
-  return axios.delete(`http://localhost:5555/${action}`, {
+  return axios.delete(`${process.env.REACT_APP_API}/${action}`, {
     data: {
       email: email
     }
@@ -66,16 +62,16 @@ function deleteAccount(action:string, email:string) {
   .then((res) => {
     if (res.status === 200) {
       return showMessage('none');
-    } else if (res.status === 403 || res.status === 404) {
-      return showMessage(res.data.error);
-    } else {
-      return showMessage('OOPS! An error occurred!');
-    }
+    } 
   })
   .catch(error => {
-    console.log(error);
-    return showMessage('OOPS! An error occurred!');
+    if (error.response.status === 500) {
+      console.log(error)
+      return showMessage('OOPS! An error occurred!');
+    } else {
+      return showMessage(error.response.data.error)
+    }
   });
 }
 
-export {createAccount, deleteAccount, updateAccount, validateUserData};
+export {postRequest, deleteAccount, updateAccount, validateUserData};
