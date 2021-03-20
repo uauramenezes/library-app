@@ -2,32 +2,22 @@ import Button from 'react-bootstrap/Button';
 import { useState, useEffect } from "react";
 import { useCookies } from 'react-cookie';
 
-import {getBookList, updateBookList} from './utils/bookList'
+import {updateBookList} from './utils/bookList'
 import blackCover from '../static/images/black-cover.jpg';
-import {changeCursor, changeDivPosition} from './utils/utils'
+import {changeCursor, changeDivPosition, showMessage} from './utils/utils'
 import Book from './utils/BookInterface';
 
+import axios from 'axios';
+
 export default function Home() {
-  const [cookie] = useCookies(["user"]);
+  const [userBookList, setUserBookList] = useState<Book[]>(Array);
   const [bookList, setBookList] = useState<Book[]>(Array);
   const [bookData, setBookData] = useState<Book[]>(Array);
   const [showList, setShowList] = useState(false);
+  const [cookie] = useCookies(["user"]);
   const [page, setPage] = useState(0);
 
-  let userBookList:Book[];
-
-  window.addEventListener('load', async () => {
-    if (cookie.user) {
-      let url = `${process.env.REACT_APP_API}/library/${cookie.user}`
-      let data = await getBookList(url, 'bookList');
-      
-      if (data.length > 0) {
-        userBookList = data;
-      }
-    }
-  })
-
-  async function getBookData() {
+  function validateInput() {
     const input = document.getElementById('input') as HTMLInputElement;
     const value = document.getElementById('fields') as HTMLInputElement;
 
@@ -35,23 +25,39 @@ export default function Home() {
     const option = value.value;
 
     if (inputText === "") {
-      input.style.border = "2px solid red";
+        input.style.border = "2px solid red";
     } else {
-      changeCursor('wait');
-      changeDivPosition();
+        const url = `${process.env.REACT_APP_SEARCH_API}${option}=${inputText}`;
+        getBookData(url);
+    }
+  }
 
-      let url = `${process.env.REACT_APP_OL_API}?${option}=${inputText}`;
+  function getBookData(url: string) {
+    changeCursor('wait');
+    changeDivPosition();
 
-      let data = await getBookList(url, 'bookData');
+    if (cookie.user) {
+      axios.get(`${process.env.REACT_APP_API}/library/${cookie.user}`)
+        .then(res => {
+          let data: Array<Book> = res.data.bookList;
+          setUserBookList(data);
+        })
+        .catch(err => {
+          console.log(err);
+        });  
+    }
 
-      console.log(data)
-      
-      if (data.length > 0) {
+    axios.get(url)
+      .then(res => {
+        let data: Array<Book> = res.data.docs
         setBookData(data);
         setShowList(true);
-        console.log(2)
-      }
-    }
+        showMessage('none');
+      })
+      .catch(err => {
+        console.log(err);
+        showMessage('OOPS! An error occurred!');
+      });    
   }
 
   useEffect(() => {
@@ -80,28 +86,28 @@ export default function Home() {
     setShowList(false);
   }, [bookData, bookList, page, showList]);
 
-  async function createBookCard({key, title, author_name, cover_i}: Book) {
-    let book: Book = {key: key, title: title, author_name: author_name, cover_i: cover_i}
+  function createBookCard({key, title, author_name, cover_i}: Book) {
+    let book: Book = {key: key, title: title, author_name: author_name, cover_i: cover_i};
+
+    let action = "Add";
+
     const coverId = cover_i;
-    let action = 'Add';
 
     const src = coverId
-      ? `${process.env.REACT_APP_OL_COVER_API}/${coverId}-M.jpg`
+      ? `${process.env.REACT_APP_COVER_API}/${coverId}-M.jpg`
       : blackCover;
 
     const authorName = author_name === undefined
       ? 'Unknown Author'
       : author_name[0];
 
-      console.log(userBookList)
-
-    userBookList.forEach(userBook => {
-      if (userBook.key === key) {
-        action = 'Remove';
-      }
-    })
-
-    changeCursor('unset');
+    if (cookie.user) {
+      userBookList.forEach(book => {
+        if (book.key === key) {
+          action = 'Remove';
+        }
+      })
+    }
 
     return(
       <li className="book" key={key}>
@@ -113,7 +119,8 @@ export default function Home() {
         <button
         type="submit"
         className='add-button'
-        onClick={() => updateBookList(action.toLowerCase(), book, cookie.user)}>
+        id={key}
+        onClick={() => updateBookList(action, book, cookie.user)}>
           {action}
         </button>
       </li>
@@ -132,7 +139,7 @@ export default function Home() {
         <Button
         variant="outline-info"
         className='ml-sm-2 button search-button'
-        onClick={() => getBookData()}>
+        onClick={() => validateInput()}>
           Search
         </Button>
       </div>

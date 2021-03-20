@@ -1,5 +1,4 @@
 import {deleteAccount, updateAccount} from './utils/userAccount';
-//import {deleteBookList} from './utils/bookList';
 import Button from 'react-bootstrap/Button';
 import { useCookies } from 'react-cookie';
 import {redirect} from './utils/utils'
@@ -42,28 +41,15 @@ export default function Account() {
               <input type="password" placeholder="********" id='password'/>
               <p id="msg"></p>
               <div>
-              <Button
-              className='submit'
-              variant="success"
-              id='cancel'
-              onClick={() => redirect()}>
+              <Button className='submit' variant="success" id='cancel' onClick={() => redirect()}>
                 Cancel
               </Button>
-              <Button
-              className='submit'
-              variant="danger"
-              id='delete'
-              onClick={() => deleteUser()}>
+              <Button className='submit' variant="danger" id='delete' onClick={() => deleteUser()}>
                 Delete
               </Button>
-              <Button 
-              className='submit'
-              variant="primary"
-              id='update'
-              onClick={() => {
+              <Button className='submit' variant="primary" id='update' onClick={() => {
                 updateAccount(cookie.user);
-              }}
-              >
+              }}>
                 Update
               </Button>
               </div>

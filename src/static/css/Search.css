@@ -107,7 +107,7 @@
 /* Book Result div */
 .book {
   width: 250px;
-  height: 475px;
+  height: 450px;
   margin: 15px 20px;
   padding-top: 15px;
   border-radius: 5px;
@@ -120,7 +120,7 @@
   text-align: center;
   overflow: hidden;
   width: 200px;
-  height: 289px;
+  height: 290px;
 }
 
 .book-title, .book-author {
@@ -136,10 +136,6 @@
 
 .book-author {
   height: 30px;
-}
-
-.published-year {
-  margin: 0 auto 5px auto;
 }
 
 .add-button {

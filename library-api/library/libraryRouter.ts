@@ -41,16 +41,15 @@ router.put('/add', (req, res, next) => {
 }, (req, res, next) => {
   LibraryModel.findOne({email: req.body.email})
     .then(library => {
+      if (library?.bookList.length === 0) return next();
+      
       if (library) {
-        if (library.bookList.length === 0) next()
-        
-        library?.bookList.forEach(arr => {
-          if (arr.key === req.body.book.key) {
-            res.status(403).json("Book already saved")
-          } else {
-            next();
-          }})
-      } else {
+        for (const book of library?.bookList) {
+          if (book.key === req.body.book.key) {
+            return res.status(403).json("Book already saved")
+          } 
+        }
+
         next();
       }
     })
@@ -75,15 +74,14 @@ router.put('/remove', (req, res, next) => {
   LibraryModel.findOne({email: req.body.email})
     .then(library => {
       if (library) {
-        library?.bookList.forEach(arr => {
-          if (arr.key === req.body.book.key) {
-            next();
+        for (const book of library?.bookList) {
+          if (book.key === req.body.book.key) {
+            return next();
           }
-        })
+        } 
       } else {
-        res.status(404).json({error: 'Book not found'});
+        res.status(404).json({error: 'User not found'});
       }
-      
     })
     .catch(error => {
       res.status(500).json(error);
@@ -97,7 +95,7 @@ router.put('/remove', (req, res, next) => {
       if (user) {
         res.status(200).json(user);
       } else {
-        res.status(404).json({error: 'User not found'});
+        res.status(404).json({error: 'Book not found'});
       }
     })
     .catch(error => {
