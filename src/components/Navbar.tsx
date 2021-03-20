@@ -56,7 +56,7 @@ function NavItems() {
     return (
       <NavDropdown title="Library App" id="basic-nav-dropdown" className='drop-down'>
         <NavDropdown.Item href={url}>Home</NavDropdown.Item>
-        <NavDropdown.Item href="#" disabled>My Library</NavDropdown.Item>
+        <NavDropdown.Item href="my-library">My Library</NavDropdown.Item>
         <NavDropdown.Item href={accountPath}>Account</NavDropdown.Item>
       </NavDropdown>
     )
@@ -66,7 +66,7 @@ function NavItems() {
         <Navbar.Brand href={url} className='site-title'>Library App</Navbar.Brand>
         <Nav className="mr-auto" id='nav'>
           <Nav.Link href={url}>Home</Nav.Link>
-          <Nav.Link href="#" disabled>My Library</Nav.Link>
+          <Nav.Link href="my-library">My Library</Nav.Link>
           <Nav.Link href={accountPath}>Account</Nav.Link>
         </Nav>
       </React.Fragment>

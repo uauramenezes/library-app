@@ -12,6 +12,10 @@
   justify-content: center;
 }
 
+#none {
+  display: none;
+}
+
 .search-before {
   position: absolute;
   top: 50%;
@@ -151,10 +155,4 @@
 
 .published-year {
   font-size: 0.8em;
-}
-
-/* Error Paragraph */
-
-#error-title {
-  margin-top: 25vh;
 }

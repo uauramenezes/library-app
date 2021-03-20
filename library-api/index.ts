@@ -5,7 +5,6 @@ import * as dotenv from 'dotenv';
 import authRouter from './auth/authRouter';
 import libraryRouter from './library/libraryRouter';
 
-
 dotenv.config();
 
 const app = express();
@@ -30,4 +29,4 @@ const db = mongoose.connection;
 db.on("error", (err)=>{console.error(err)});
 db.once("open", () => {console.log("DB started successfully")});
 
-app.listen(port, () => {console.log("Server started: 5555")});
+app.listen(port, () => {console.log(`Listening on port: ${port}`)});

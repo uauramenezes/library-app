@@ -1,26 +1,6 @@
 import axios from 'axios';
 import Book from './BookInterface';
 
-function getBookList(url: string, path: string) {
-  let data:Book[] = [];
-  
-  axios.get(url)
-    .then((res) => {
-      if (res.status === 200) {
-        if (path === 'bookList') {
-          data = res.data.bookList
-        } else {
-          data = res.data.docs
-        }
-      } 
-    })
-    .catch(error => {
-      console.log(error);
-    });
-
-  return data;
-}
-
 function updateBookList(action:string, book:Book, user:string) {
   if (!user) return;
 
@@ -42,4 +22,4 @@ function updateBookList(action:string, book:Book, user:string) {
   });
 }
 
-export {getBookList, updateBookList}
+export {updateBookList}

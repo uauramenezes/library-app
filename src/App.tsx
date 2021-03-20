@@ -12,6 +12,7 @@ function App() {
       <NavBar />
       <Switch>
         <Route exact path='/' component={Search} />
+        <Route exact path='/my-library' component={Search} />
         <Route exact path='/account' component={Account} />
         <Route exact path='/sign-in' component={SignIn} />
         <Route exact path='/sign-up' component={SignUp} />

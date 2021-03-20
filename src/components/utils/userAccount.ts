@@ -21,7 +21,6 @@ function postRequest(action:string, email:string, password: string):Promise<bool
       return showMessage('none');
     })
     .catch(error => {
-      console.log(error.response.data.error)
       if (error.response.status === 500) {
         console.log(error)
         return showMessage('OOPS! An error occurred!');
@@ -39,7 +38,6 @@ function updateAccount(email: string) {
     password: password
   })
     .then((res) => {
-      console.log(res.status)
       if (res.status === 200) {
         return showMessage('Password changed');
       }

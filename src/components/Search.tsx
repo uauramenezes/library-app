@@ -2,20 +2,36 @@ import Button from 'react-bootstrap/Button';
 import { useState, useEffect } from "react";
 import { useCookies } from 'react-cookie';
 
-import {updateBookList} from './utils/bookList'
+import {changeCursor, changeDivPosition, showMessage} from './utils/utils';
 import blackCover from '../static/images/black-cover.jpg';
-import {changeCursor, changeDivPosition, showMessage} from './utils/utils'
 import Book from './utils/BookInterface';
+import {redirect} from './utils/utils';
 
 import axios from 'axios';
 
-export default function Home() {
+export default function Search(props:any) {
   const [userBookList, setUserBookList] = useState<Book[]>(Array);
   const [bookList, setBookList] = useState<Book[]>(Array);
   const [bookData, setBookData] = useState<Book[]>(Array);
   const [showList, setShowList] = useState(false);
   const [cookie] = useCookies(["user"]);
   const [page, setPage] = useState(0);
+  const [id, setId] = useState('search')
+
+  let path = props.location.pathname;
+
+  useEffect(() => {
+    if(bookList.length > 0) return;
+
+    if (path === '/my-library') {
+      if (!cookie.user) redirect();
+  
+      setId('none')
+  
+      let url = `${process.env.REACT_APP_API}/library/${cookie.user}`;
+      fetchData(url, 'UBD');
+    }
+  }, [bookList, cookie.user, path])
 
   function validateInput() {
     const input = document.getElementById('input') as HTMLInputElement;
@@ -25,10 +41,10 @@ export default function Home() {
     const option = value.value;
 
     if (inputText === "") {
-        input.style.border = "2px solid red";
+      input.style.border = "2px solid red";
     } else {
-        const url = `${process.env.REACT_APP_SEARCH_API}${option}=${inputText}`;
-        getBookData(url);
+      const url = `${process.env.REACT_APP_SEARCH_API}${option}=${inputText}`;
+      getBookData(url);
     }
   }
 
@@ -37,27 +53,108 @@ export default function Home() {
     changeDivPosition();
 
     if (cookie.user) {
-      axios.get(`${process.env.REACT_APP_API}/library/${cookie.user}`)
-        .then(res => {
-          let data: Array<Book> = res.data.bookList;
-          setUserBookList(data);
-        })
-        .catch(err => {
-          console.log(err);
-        });  
+      let url = `${process.env.REACT_APP_API}/library/${cookie.user}`;
+      fetchData(url, 'BL');
     }
 
+    fetchData(url, 'BD')
+  }
+
+  function fetchData(url:string, ars:string) {
     axios.get(url)
-      .then(res => {
-        let data: Array<Book> = res.data.docs
-        setBookData(data);
-        setShowList(true);
-        showMessage('none');
+    .then(res => {
+      switch (ars) {
+        case 'BL':
+          setUserBookList(res.data.bookList);
+          break;
+        case "BD":
+          setBookData(res.data.docs);
+          showMessage('none');
+          setShowList(true);
+          break;
+        case "UBD":
+          setUserBookList(res.data.bookList);
+          setBookData(res.data.bookList);
+          setShowList(true);
+          break;
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+  
+  function createBookCard({key, title, author_name, cover_i}: Book) {
+    let book: Book = {key: key, title: title, author_name: author_name, cover_i: cover_i};
+
+    let action = 'Add';
+
+    const coverId = cover_i;
+
+    const src = coverId
+      ? `${process.env.REACT_APP_COVER_API}/${coverId}-M.jpg`
+      : blackCover;
+
+    const authorName = author_name === undefined
+      ? 'Unknown Author'
+      : author_name[0];
+
+    if (cookie.user) {
+      userBookList.forEach(book => {
+        if (book.key === key) {
+          action = 'Remove';
+        }
       })
-      .catch(err => {
-        console.log(err);
-        showMessage('OOPS! An error occurred!');
-      });    
+    }
+
+    return(
+      <li className="book" key={key} id={`book-${key}`}>
+        <img className='book-cover' src={src} alt={title} />
+        <div className="details">
+          <h6 className="book-title">{title}</h6>
+          <p className="book-author">by {authorName}</p>
+        </div>
+        <button
+        type="submit"
+        className='add-button'
+        id={`btn-${key}`}
+        onClick={() => {
+          updateBookList(action, book, cookie.user);
+        }}>
+          {action}
+        </button>
+      </li>
+    )
+  }
+
+  function updateBookList(action:string, book:Book, user:string) {
+    if (!user) return;
+
+    let btn = document.getElementById(`btn-${book.key}`) as HTMLInputElement;
+    action = (btn && btn.textContent) ? btn.textContent : action;
+
+    let url = `${process.env.REACT_APP_API}/library/${action.toLowerCase()}`;
+    axios.put(url, {
+      email: user,
+      book: book,
+    })
+    .then((res) => {
+      if (res.status === 200) {
+        btn.textContent = btn.textContent === 'Add' ? "Remove" : "Add";
+        removeBookCard(book.key)
+      } 
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+
+  function removeBookCard(id: string) {
+    if (path === '/') return;
+    let bookCard = document.getElementById(`book-${id}`) as HTMLInputElement;
+    setTimeout(() => {
+      bookCard.remove();
+    }, 100)
   }
 
   useEffect(() => {
@@ -86,50 +183,9 @@ export default function Home() {
     setShowList(false);
   }, [bookData, bookList, page, showList]);
 
-  function createBookCard({key, title, author_name, cover_i}: Book) {
-    let book: Book = {key: key, title: title, author_name: author_name, cover_i: cover_i};
-
-    let action = "Add";
-
-    const coverId = cover_i;
-
-    const src = coverId
-      ? `${process.env.REACT_APP_COVER_API}/${coverId}-M.jpg`
-      : blackCover;
-
-    const authorName = author_name === undefined
-      ? 'Unknown Author'
-      : author_name[0];
-
-    if (cookie.user) {
-      userBookList.forEach(book => {
-        if (book.key === key) {
-          action = 'Remove';
-        }
-      })
-    }
-
-    return(
-      <li className="book" key={key}>
-        <img className='book-cover' src={src} alt={title} />
-        <div className="details">
-          <h6 className="book-title">{title}</h6>
-          <p className="book-author">by {authorName}</p>
-        </div>
-        <button
-        type="submit"
-        className='add-button'
-        id={key}
-        onClick={() => updateBookList(action, book, cookie.user)}>
-          {action}
-        </button>
-      </li>
-    )
-  }
-
   return(
     <div className="home">
-      <div className="search-before" id='search'>
+      <div className="search-before" id={id}>
         <input type='text' className='input' id='input' placeholder='Search'></input>
         <select className='fields' id='fields'>
           <option value='q'>All</option>
