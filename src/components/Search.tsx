@@ -16,7 +16,7 @@ export default function Search(props:any) {
   const [showList, setShowList] = useState(false);
   const [cookie] = useCookies(["user"]);
   const [page, setPage] = useState(0);
-  const [id, setId] = useState('search')
+  const [id, setId] = useState('search');
 
   let path = props.location.pathname;
 
@@ -29,7 +29,13 @@ export default function Search(props:any) {
       setId('none')
   
       let url = `${process.env.REACT_APP_API}/library/${cookie.user}`;
-      fetchData(url, 'UBD');
+      axios.get(url)
+        .then(res => {
+          setUserBookList(res.data.bookList);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }, [bookList, cookie.user, path])
 
@@ -37,13 +43,13 @@ export default function Search(props:any) {
     const input = document.getElementById('input') as HTMLInputElement;
     const value = document.getElementById('fields') as HTMLInputElement;
 
-    const inputText = input.value.trim().replace(' ', '+');
+    const inputText = input.value.trim().replaceAll(' ', '+');
     const option = value.value;
 
     if (inputText === "") {
       input.style.border = "2px solid red";
     } else {
-      const url = `${process.env.REACT_APP_SEARCH_API}${option}=${inputText}`;
+      const url = `${process.env.REACT_APP_SEARCH}${option}=${inputText}`;
       getBookData(url);
     }
   }
@@ -53,8 +59,7 @@ export default function Search(props:any) {
     changeDivPosition();
 
     if (cookie.user) {
-      let url = `${process.env.REACT_APP_API}/library/${cookie.user}`;
-      fetchData(url, 'BL');
+      fetchData(`${process.env.REACT_APP_API}/library/${cookie.user}`, 'BL');
     }
 
     fetchData(url, 'BD')
@@ -63,21 +68,20 @@ export default function Search(props:any) {
   function fetchData(url:string, ars:string) {
     axios.get(url)
     .then(res => {
-      switch (ars) {
-        case 'BL':
-          setUserBookList(res.data.bookList);
-          break;
-        case "BD":
-          setBookData(res.data.docs);
-          showMessage('none');
-          setShowList(true);
-          break;
-        case "UBD":
-          setUserBookList(res.data.bookList);
-          setBookData(res.data.bookList);
-          setShowList(true);
-          break;
+      if (res.data.numFound === 0) {
+      changeCursor('unset');
+      return showMessage('No results found.')
       }
+
+      if (ars === 'BD') {
+        setBookData(res.data.docs);
+      } else {
+        setUserBookList(res.data.bookList);
+        setBookData(res.data.bookList);
+      }
+
+      setShowList(true);
+      showMessage('none')
     })
     .catch(err => {
       console.log(err);
@@ -92,7 +96,7 @@ export default function Search(props:any) {
     const coverId = cover_i;
 
     const src = coverId
-      ? `${process.env.REACT_APP_COVER_API}/${coverId}-M.jpg`
+      ? `${process.env.REACT_APP_COVER}/${coverId}-M.jpg`
       : blackCover;
 
     const authorName = author_name === undefined
@@ -199,12 +203,13 @@ export default function Search(props:any) {
           Search
         </Button>
       </div>
+
+      <div id="msg"></div>
       
       <div className="search-results" id='search-result'>
         <ul className="book-list">
           {bookList.map(book => createBookCard(book))}
         </ul>
-        <p id="msg"></p>
       </div>
     </div>
   );

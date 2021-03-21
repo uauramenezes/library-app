@@ -17,14 +17,14 @@ function redirect() {
 }
 
 function showMessage(msg: string):boolean {
-  let errorMsg = document.getElementById('msg') as HTMLInputElement;
+  let msgTag = document.getElementById('msg') as HTMLInputElement;
 
   if (msg === 'none') {
-    errorMsg.style.display = 'none';
+    msgTag.style.display = 'none';
     return true;
   } else {
-    errorMsg.style.display = 'inline';
-    errorMsg.textContent = msg;
+    msgTag.style.display = 'inline';
+    msgTag.textContent = msg;
     return false;
   }
 }

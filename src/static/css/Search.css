@@ -156,3 +156,9 @@
 .published-year {
   font-size: 0.8em;
 }
+
+/* ERROR MESSAGE */
+div#msg {
+  font-size: 20pt;
+  padding-top: 100px;
+}
