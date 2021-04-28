@@ -24,13 +24,8 @@ Here is a live demo of the project: https://uauramenezes.github.io/library-app/
 * Open Library Search API
 
 ## About
-The original objective of this project was mainly to learn how to use a third-party API. But also to practice TypeScript and Bootstrap.
+The original objective of this project was mainly to learn how to use a third-party API, specifically the Open Library API, in the search mechanism. But also to practice TypeScript and Bootstrap.
 
-The secondary objective was to turn it into a simple CRUD application with authentication.
+The secondary objective was to turn it into a simple CRUD application with authentication. For that, I made use of MongoDB to save the user's authentication data and favourites books. 
 
-The project uses TypeScript and:
-* MongoDB to save the data,
-* React, React Hooks, for the DOM manipulation,
-* Open Library Search API for the search mechanism,
-* Bootstrap and pure CSS for a responsive web page,
-* Node.js and Express for the client-database communication.
+Furthermore, I also used React, Node.js and Express to improve my knowledge of these tools.
