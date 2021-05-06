@@ -8,7 +8,7 @@ A web app, based on the Open Library, to search for books. The users can also si
 ## Demo
 Here is a live demo of the project: https://uauramenezes.github.io/library-app/
 
-##Features
+## Features
 - [x] Search books by author, title or a generic term,
 - [x] Save the books to make a personal library,
 - [x] Create users and authenticate.
