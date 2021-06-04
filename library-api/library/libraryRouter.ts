@@ -4,6 +4,10 @@ import AuthModel from '../auth/AuthModel';
 
 const router = express.Router();
 
+router.get('wake-up', (req, res) => {
+  res.status(200);
+})
+
 router.post('/create', (req, res, next) => {
   findUser(req, res, next);
 }, (req, res) => {

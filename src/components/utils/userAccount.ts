@@ -13,7 +13,7 @@ function validateUserData(email:string, password:string):boolean {
 }
 
 function postRequest(action:string, email:string, password: string):Promise<boolean> {
-  return axios.post(`${process.env.REACT_APP_API}/${action}`, {
+  return axios.post(`https://uaura-library-api.herokuapp.com/${action}`, {
     email: email,
     password: password
   })
@@ -33,7 +33,7 @@ function postRequest(action:string, email:string, password: string):Promise<bool
 function updateAccount(email: string) {
   let password = (document.getElementById('password') as HTMLInputElement).value;
 
-  return axios.put(`${process.env.REACT_APP_API}/auth/update`, {
+  return axios.put(`https://uaura-library-api.herokuapp.com/auth/update`, {
     email: email,
     password: password
   })
@@ -53,7 +53,7 @@ function updateAccount(email: string) {
 }
 
 function deleteAccount(action:string, email:string) {
-  return axios.delete(`${process.env.REACT_APP_API}/${action}`, {
+  return axios.delete(`https://uaura-library-api.herokuapp.com/${action}`, {
     data: {
       email: email
     }

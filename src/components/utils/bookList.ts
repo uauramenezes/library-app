@@ -7,7 +7,7 @@ function updateBookList(action:string, book:Book, user:string) {
   let btn = document.getElementById(book.key) as HTMLInputElement;
   action = (btn && btn.textContent) ? btn.textContent : action;
 
-  let url = `${process.env.REACT_APP_API}/library/${action.toLowerCase()}`;
+  let url = `https://uaura-library-api.herokuapp.com/library/${action.toLowerCase()}`;
   axios.put(url, {
     email: user,
     book: book,

@@ -23,12 +23,18 @@ export default function Search(props:any) {
   useEffect(() => {
     if(bookList.length > 0) return;
 
+    if (path === '/') {
+        axios.get('https://uaura-library-api.herokuapp.com/library/wake-up')
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+    }
+
     if (path === '/my-library') {
       if (!cookie.user) redirect();
   
       setId('none')
   
-      let url = `${process.env.REACT_APP_API}/library/${cookie.user}`;
+      let url = `https://uaura-library-api.herokuapp.com/library/${cookie.user}`;
       axios.get(url)
         .then(res => {
           setUserBookList(res.data.bookList);
@@ -49,7 +55,7 @@ export default function Search(props:any) {
     if (inputText === "") {
       input.style.border = "2px solid red";
     } else {
-      const url = `${process.env.REACT_APP_SEARCH}${option}=${inputText}`;
+      const url = `http://openlibrary.org/search/${option}=${inputText}`;
       getBookData(url);
     }
   }
@@ -59,7 +65,7 @@ export default function Search(props:any) {
     changeDivPosition();
 
     if (cookie.user) {
-      fetchData(`${process.env.REACT_APP_API}/library/${cookie.user}`, 'BL');
+      fetchData(`https://uaura-library-api.herokuapp.com/library/${cookie.user}`, 'BL');
     }
 
     fetchData(url, 'BD')
@@ -96,7 +102,7 @@ export default function Search(props:any) {
     const coverId = cover_i;
 
     const src = coverId
-      ? `${process.env.REACT_APP_COVER}/${coverId}-M.jpg`
+      ? `http://covers.openlibrary.org/b/id/${coverId}-M.jpg`
       : blackCover;
 
     const authorName = author_name === undefined
