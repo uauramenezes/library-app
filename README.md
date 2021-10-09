@@ -10,8 +10,8 @@ Here is a live demo of the project: https://uauramenezes.github.io/library-app/
 
 ## Features
 - [x] Search books by author, title or a generic term,
-- [] Save the books to make a personal library,
-- [] Create users and authenticate.
+- [ ] Save the books to make a personal library,
+- [ ] Create users and authenticate.
 
 ## Built with
 * CSS
