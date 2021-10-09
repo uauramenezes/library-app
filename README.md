@@ -1,5 +1,5 @@
 # Library App
-A web app, based on the Open Library, to search for books. The users can also sign-up and save the books in their library.
+A web app, based on the Open Library, to search for books.
 
 <p align="center">
     <img alt="Library App Preview" src="./images/library-app.gif" width="720px" height="450px" />
